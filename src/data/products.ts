@@ -24,7 +24,7 @@ export const products: Product[] = [
       "1350 Riot Points para League of Legends. Desbloquea campeones, skins y otros contenidos exclusivos.",
     price: 35.99,
     image:
-      "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=300&fit=crop",
+      "https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2Fae9b6c06fb69498393a69b5bb1004646",
     rating: 4.7,
     reviewCount: 1876,
     category: "divisas",
@@ -43,7 +43,7 @@ export const products: Product[] = [
     originalPrice: 9.99,
     discount: 10,
     image:
-      "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&h=300&fit=crop",
+      "https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2Fe0a258d93c6f4fe19261221513fbed1b",
     rating: 4.8,
     reviewCount: 3421,
     category: "divisas",
@@ -62,7 +62,7 @@ export const products: Product[] = [
     originalPrice: 59.99,
     discount: 50,
     image:
-      "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=400&h=300&fit=crop",
+      "https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2F034b14ad7b0d4c4e9cafd259c3cd9e2e",
     rating: 4.2,
     reviewCount: 1847,
     category: "divisas",
@@ -81,7 +81,7 @@ export const products: Product[] = [
     originalPrice: 12.99,
     discount: 23,
     image:
-      "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=300&fit=crop",
+      "https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2Fa57eb1fb1f8a4c84b7943a602b35c1a4",
     rating: 4.6,
     reviewCount: 2187,
     category: "divisas",
@@ -98,7 +98,7 @@ export const products: Product[] = [
       "1000 Apex Coins para Apex Legends. Compra skins de leyenda, armas y pases de batalla.",
     price: 9.99,
     image:
-      "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=400&h=300&fit=crop",
+      "https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2F0d77e6719bc24bed81ba1e36406520b8",
     rating: 4.5,
     reviewCount: 2341,
     category: "divisas",
