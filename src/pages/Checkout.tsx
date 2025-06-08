@@ -30,7 +30,8 @@ interface FormErrors {
 }
 
 export default function Checkout() {
-  const { cartItems, total, clearCart } = useCart();
+  const { cartItems, clearCart, getTotalPrice } = useCart();
+  const total = getTotalPrice();
   const navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
