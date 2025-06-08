@@ -103,14 +103,13 @@ export function CartModal() {
                   {/* Quantity Controls */}
                   <div className="flex items-center space-x-2">
                     <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        handleQuantityChange(item.id, item.quantity - 1)
-                      }
-                      className="w-8 h-8 p-0"
+                      className="w-full bg-[#006D5B] hover:bg-[#005248] text-white font-semibold py-3"
+                      onClick={() => {
+                        setIsOpen(false);
+                        window.location.href = "/checkout";
+                      }}
                     >
-                      <Minus className="w-3 h-3" />
+                      Proceder al Pago (${total.toFixed(2)})
                     </Button>
 
                     <span className="w-8 text-center text-sm font-medium">

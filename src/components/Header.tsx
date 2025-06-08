@@ -113,7 +113,12 @@ export function Header() {
                 </span>
               )}
             </Button>
-            <Button variant="ghost" size="sm">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-gray-600 hover:text-[#006D5B]"
+              onClick={() => (window.location.href = "/login")}
+            >
               <User className="w-5 h-5" />
             </Button>
           </div>

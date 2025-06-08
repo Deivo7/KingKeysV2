@@ -16,10 +16,12 @@ import { Soporte247 } from "./pages/support/Soporte247";
 import { RequisitosSystem } from "./pages/support/RequisitosSystem";
 
 // Company pages
-import { AcercaDeKingKeys } from "./pages/company/AcercaDeKingKeys";
-import { Contacto } from "./pages/company/Contacto";
-import { UneteEquipo } from "./pages/company/UneteEquipo";
-import { ProgramaAfiliados } from "./pages/company/ProgramaAfiliados";
+import AcercaDeKingKeys from "./pages/company/AcercaDeKingKeys";
+import Contacto from "./pages/company/Contacto";
+import UneteEquipo from "./pages/company/UneteEquipo";
+import ProgramaAfiliados from "./pages/company/ProgramaAfiliados";
+import Checkout from "./pages/Checkout";
+import Login from "./pages/Login";
 
 import NotFound from "./pages/NotFound";
 import "./App.css";
