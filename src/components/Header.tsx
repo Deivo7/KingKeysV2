@@ -38,18 +38,7 @@ export function Header() {
                   : "text-secondary-600",
               )}
             >
-              Divisas
-            </Link>
-            <Link
-              to="/gift-cards"
-              className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
-                isActiveRoute("/gift-cards")
-                  ? "text-primary"
-                  : "text-secondary-600",
-              )}
-            >
-              Gift Cards
+              Divisas y Gift Cards
             </Link>
           </nav>
 
@@ -90,18 +79,7 @@ export function Header() {
                   : "text-secondary-600",
               )}
             >
-              Divisas
-            </Link>
-            <Link
-              to="/gift-cards"
-              className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
-                isActiveRoute("/gift-cards")
-                  ? "text-primary"
-                  : "text-secondary-600",
-              )}
-            >
-              Gift Cards
+              Divisas y Gift Cards
             </Link>
           </div>
           <div className="relative">
