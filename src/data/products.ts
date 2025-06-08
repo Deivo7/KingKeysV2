@@ -150,7 +150,7 @@ export const products: Product[] = [
       "Tarjeta regalo de $10 USD para Google Play Store. Compra aplicaciones, juegos y contenido digital.",
     price: 10.99,
     image:
-      "https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2F1e6160198c0f46f288af9391c293db44",
+      "https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2F475f7a82d0c242e1afd4cc03a54d27f4",
     rating: 4.7,
     reviewCount: 2567,
     category: "gift-cards",
