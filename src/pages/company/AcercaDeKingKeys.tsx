@@ -310,3 +310,5 @@ export function AcercaDeKingKeys() {
     </Layout>
   );
 }
+
+export default AcercaDeKingKeys;
