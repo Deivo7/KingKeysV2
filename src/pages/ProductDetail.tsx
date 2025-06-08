@@ -23,6 +23,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { getProductById } from "@/data/products";
+import { useCart } from "@/contexts/CartContext";
 import { cn } from "@/lib/utils";
 
 export function ProductDetail() {
