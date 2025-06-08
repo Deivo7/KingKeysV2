@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Grid, List, SlidersHorizontal } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ProductFilters } from "@/components/filters/ProductFilters";
@@ -19,7 +20,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { getProductsByCategory } from "@/data/products";
+import { getProductsByCategory, filterProducts } from "@/data/products";
 import { cn } from "@/lib/utils";
 
 type ViewMode = "grid" | "list";
@@ -38,6 +39,7 @@ interface FilterState {
 }
 
 export function Divisas() {
+  const [searchParams] = useSearchParams();
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [sortBy, setSortBy] = useState<SortOption>("name-asc");
   const [showFilters, setShowFilters] = useState(false);
@@ -48,28 +50,26 @@ export function Divisas() {
     priceRange: [0, 200],
   });
 
+  // Handle search from URL params
+  useEffect(() => {
+    const searchQuery = searchParams.get("search");
+    if (searchQuery) {
+      setFilters((prev) => ({
+        ...prev,
+        search: searchQuery,
+      }));
+    }
+  }, [searchParams]);
+
   const allProducts = getProductsByCategory("divisas");
 
-  // Apply filters and sorting
-  let filteredProducts = [...allProducts];
-
-  // Apply search filter
-  if (filters.search) {
-    filteredProducts = filteredProducts.filter(
-      (product) =>
-        product.title.toLowerCase().includes(filters.search.toLowerCase()) ||
-        product.description
-          .toLowerCase()
-          .includes(filters.search.toLowerCase()),
-    );
-  }
-
-  // Apply price filter
-  filteredProducts = filteredProducts.filter(
-    (product) =>
-      product.price >= filters.priceRange[0] &&
-      product.price <= filters.priceRange[1],
-  );
+  // Apply filters using the new filterProducts function
+  let filteredProducts = filterProducts(allProducts, {
+    search: filters.search,
+    categories: filters.categories,
+    platforms: filters.platforms,
+    priceRange: filters.priceRange,
+  });
 
   // Apply sorting
   filteredProducts.sort((a, b) => {
@@ -111,7 +111,7 @@ export function Divisas() {
             Productos Digitales
           </h1>
           <p className="text-secondary-600">
-            Discover thousands of games, software, and digital content
+            Descubre miles de juegos, divisas virtuales y contenido digital
           </p>
         </div>
 
@@ -136,11 +136,11 @@ export function Divisas() {
                   className="lg:hidden"
                 >
                   <SlidersHorizontal className="w-4 h-4 mr-2" />
-                  Filters
+                  Filtros
                 </Button>
 
                 <span className="text-sm text-secondary-600">
-                  {filteredProducts.length} products found
+                  {filteredProducts.length} productos encontrados
                 </span>
               </div>
 
@@ -150,18 +150,18 @@ export function Divisas() {
                   onValueChange={(value: SortOption) => setSortBy(value)}
                 >
                   <SelectTrigger className="w-48">
-                    <SelectValue placeholder="Sort by" />
+                    <SelectValue placeholder="Ordenar por" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="name-asc">Name A-Z</SelectItem>
-                    <SelectItem value="name-desc">Name Z-A</SelectItem>
+                    <SelectItem value="name-asc">Nombre A-Z</SelectItem>
+                    <SelectItem value="name-desc">Nombre Z-A</SelectItem>
                     <SelectItem value="price-asc">
-                      Price: Low to High
+                      Precio: Menor a Mayor
                     </SelectItem>
                     <SelectItem value="price-desc">
-                      Price: High to Low
+                      Precio: Mayor a Menor
                     </SelectItem>
-                    <SelectItem value="rating-desc">Highest Rated</SelectItem>
+                    <SelectItem value="rating-desc">Mejor Valorados</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -192,7 +192,7 @@ export function Divisas() {
             ) : (
               <div className="text-center py-12">
                 <p className="text-secondary-600">
-                  No products found matching your criteria.
+                  No se encontraron productos que coincidan con tus criterios.
                 </p>
               </div>
             )}
