@@ -63,9 +63,9 @@ function App() {
             path="/company/programa-afiliados"
             element={<ProgramaAfiliados />}
           />
-
-          {/* Alias routes for footer links */}
-          <Route path="/about" element={<AcercaDeKingKeys />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<NotFound />} />
           <Route path="/team" element={<UneteEquipo />} />
           <Route path="/affiliates" element={<ProgramaAfiliados />} />
           <Route path="/support" element={<CentroAyuda />} />
