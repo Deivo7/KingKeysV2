@@ -393,3 +393,5 @@ export function UneteEquipo() {
     </Layout>
   );
 }
+
+export default UneteEquipo;

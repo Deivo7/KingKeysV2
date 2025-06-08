@@ -314,3 +314,5 @@ export function Contacto() {
     </Layout>
   );
 }
+
+export default Contacto;

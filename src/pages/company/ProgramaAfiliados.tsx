@@ -427,3 +427,5 @@ export function ProgramaAfiliados() {
     </Layout>
   );
 }
+
+export default ProgramaAfiliados;
