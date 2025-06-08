@@ -33,6 +33,13 @@ export function CartModal() {
     return `$${price.toFixed(2)}`;
   };
 
+  const total = getTotalPrice();
+
+  const handleCheckout = () => {
+    closeCart();
+    window.location.href = "/checkout";
+  };
+
   return (
     <Sheet open={state.isOpen} onOpenChange={closeCart}>
       <SheetContent className="w-full sm:max-w-lg">
@@ -103,13 +110,14 @@ export function CartModal() {
                   {/* Quantity Controls */}
                   <div className="flex items-center space-x-2">
                     <Button
-                      className="w-full bg-[#006D5B] hover:bg-[#005248] text-white font-semibold py-3"
-                      onClick={() => {
-                        setIsOpen(false);
-                        window.location.href = "/checkout";
-                      }}
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        handleQuantityChange(item.id, item.quantity - 1)
+                      }
+                      className="w-8 h-8 p-0"
                     >
-                      Proceder al Pago (${total.toFixed(2)})
+                      <Minus className="w-3 h-3" />
                     </Button>
 
                     <span className="w-8 text-center text-sm font-medium">
@@ -161,15 +169,16 @@ export function CartModal() {
               {/* Total */}
               <div className="flex justify-between items-center text-lg font-semibold">
                 <span>Total:</span>
-                <span className="text-primary">
-                  {formatPrice(getTotalPrice())}
-                </span>
+                <span className="text-primary">{formatPrice(total)}</span>
               </div>
 
               {/* Checkout Buttons */}
               <div className="space-y-2">
-                <Button className="w-full bg-primary hover:bg-primary-600 text-white">
-                  Proceder al Pago
+                <Button
+                  className="w-full bg-[#006D5B] hover:bg-[#005248] text-white font-semibold py-3"
+                  onClick={handleCheckout}
+                >
+                  Proceder al Pago (${total.toFixed(2)})
                 </Button>
                 <Button
                   variant="outline"
