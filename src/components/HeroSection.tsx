@@ -15,9 +15,8 @@ export function HeroSection() {
                 Más de 10,000+ Juegos y Divisas Disponibles
               </Badge>
               <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
-                Tu Tienda de{" "}
-                <span className="text-primary">Juegos Digitales</span>
-                <br />y Divisas Gaming
+                Tu Tienda de <br />
+                Divisas Gaming
               </h1>
               <p className="text-lg text-secondary-600 mb-8 max-w-xl">
                 Descubre miles de juegos, divisas virtuales y gift cards para
@@ -42,11 +41,11 @@ export function HeroSection() {
                   </p>
                 </div>
               </div>
-              <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
-                Tu Tienda de{' '}
-                <br />
-                Divisas Gaming
-              </h1>
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-primary" />
+                </div>
+                <div>
                   <h3 className="font-semibold text-gray-900">
                     Claves Originales
                   </h3>
@@ -133,10 +132,11 @@ export function HeroSection() {
                 <div
                   className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-4"
                   style={{
-                    backgroundImage: "url(https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2F034b14ad7b0d4c4e9cafd259c3cd9e2e)",
+                    backgroundImage:
+                      "url(https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2F034b14ad7b0d4c4e9cafd259c3cd9e2e)",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
-                    backgroundSize: "cover"
+                    backgroundSize: "cover",
                   }}
                 >
                   <Badge className="bg-yellow-500 text-black mb-2 w-fit">
@@ -161,10 +161,11 @@ export function HeroSection() {
                 <div
                   className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-4"
                   style={{
-                    backgroundImage: "url(https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2Fa57eb1fb1f8a4c84b7943a602b35c1a4)",
+                    backgroundImage:
+                      "url(https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2Fa57eb1fb1f8a4c84b7943a602b35c1a4)",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
-                    backgroundSize: "cover"
+                    backgroundSize: "cover",
                   }}
                 >
                   <Badge className="bg-primary text-white mb-2 w-fit">
@@ -189,10 +190,11 @@ export function HeroSection() {
                 <div
                   className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-4"
                   style={{
-                    backgroundImage: "url(https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2Fe0a258d93c6f4fe19261221513fbed1b)",
+                    backgroundImage:
+                      "url(https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2Fe0a258d93c6f4fe19261221513fbed1b)",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
-                    backgroundSize: "cover"
+                    backgroundSize: "cover",
                   }}
                 >
                   <Badge className="bg-blue-500 text-white mb-2 w-fit">
