@@ -27,10 +27,21 @@ import { cn } from "@/lib/utils";
 
 export function ProductDetail() {
   const { id } = useParams<{ id: string }>();
+  const { addItem, openCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
 
   const product = id ? getProductById(id) : null;
+
+  const handleAddToCart = () => {
+    if (product) {
+      // Add the specified quantity to cart
+      for (let i = 0; i < quantity; i++) {
+        addItem(product);
+      }
+      openCart();
+    }
+  };
 
   if (!product) {
     return (
@@ -217,9 +228,12 @@ export function ProductDetail() {
                   size="lg"
                   className="flex-1 bg-primary hover:bg-primary-600 text-white"
                   disabled={!product.inStock}
+                  onClick={handleAddToCart}
                 >
                   <ShoppingCart className="w-5 h-5 mr-2" />
-                  Add to Cart - ${(product.price * quantity).toFixed(2)}
+                  {product.inStock
+                    ? `Add to Cart - ${(product.price * quantity).toFixed(2)}`
+                    : "Sin Stock"}
                 </Button>
 
                 <Button

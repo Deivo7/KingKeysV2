@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Card, CardContent } from "./ui/card";
 import { Product } from "@/data/products";
+import { useCart } from "@/contexts/CartContext";
 import { cn } from "@/lib/utils";
 
 interface ProductCardProps {
@@ -12,11 +13,20 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, className }: ProductCardProps) {
+  const { addItem, openCart } = useCart();
+
   const discountPercentage = product.originalPrice
     ? Math.round(
         ((product.originalPrice - product.price) / product.originalPrice) * 100,
       )
     : 0;
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem(product);
+    openCart();
+  };
 
   return (
     <Card
@@ -112,9 +122,11 @@ export function ProductCard({ product, className }: ProductCardProps) {
             <Button
               size="sm"
               className="bg-primary hover:bg-primary-600 text-white"
+              onClick={handleAddToCart}
+              disabled={!product.inStock}
             >
               <ShoppingCart className="w-4 h-4 mr-1" />
-              Add to Cart
+              {product.inStock ? "Add to Cart" : "Sin Stock"}
             </Button>
           </div>
 
