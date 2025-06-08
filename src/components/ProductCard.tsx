@@ -107,7 +107,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           </div>
 
           {/* Price */}
-          <div className="flex items-center justify-between">
+          <div className="mb-3">
             <div className="flex items-center gap-2">
               {product.originalPrice && (
                 <span className="text-secondary-400 line-through text-sm">
@@ -118,29 +118,30 @@ export function ProductCard({ product, className }: ProductCardProps) {
                 ${product.price}
               </span>
             </div>
-
-            <Button
-              size="sm"
-              className="bg-primary hover:bg-primary-600 text-white"
-              onClick={handleAddToCart}
-              disabled={!product.inStock}
-            >
-              <ShoppingCart className="w-4 h-4 mr-1" />
-              {product.inStock ? "Add to Cart" : "Sin Stock"}
-            </Button>
           </div>
 
+          {/* Add to Cart Button - Now below price */}
+          <Button
+            size="sm"
+            className="w-full bg-primary hover:bg-primary-600 text-white mb-2"
+            onClick={handleAddToCart}
+            disabled={!product.inStock}
+          >
+            <ShoppingCart className="w-4 h-4 mr-1" />
+            {product.inStock ? "Agregar al Carrito" : "Sin Stock"}
+          </Button>
+
           {/* Stock status */}
-          <div className="mt-2 text-sm">
+          <div className="text-sm">
             {product.inStock ? (
               <span className="text-green-600 flex items-center">
                 <div className="w-2 h-2 bg-green-600 rounded-full mr-2"></div>
-                In Stock
+                En Stock
               </span>
             ) : (
               <span className="text-red-600 flex items-center">
                 <div className="w-2 h-2 bg-red-600 rounded-full mr-2"></div>
-                Out of Stock
+                Agotado
               </span>
             )}
           </div>

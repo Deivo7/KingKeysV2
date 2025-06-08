@@ -40,7 +40,18 @@ export function Header() {
           </Link>
 
           {/* Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-6">
+            <Link
+              to="/juegos-pc"
+              className={cn(
+                "text-sm font-medium transition-colors hover:text-primary",
+                isActiveRoute("/juegos-pc")
+                  ? "text-primary"
+                  : "text-secondary-600",
+              )}
+            >
+              Juegos PC
+            </Link>
             <Link
               to="/divisas"
               className={cn(
@@ -50,7 +61,27 @@ export function Header() {
                   : "text-secondary-600",
               )}
             >
-              Divisas y Gift Cards
+              Divisas
+            </Link>
+            <Link
+              to="/dlc"
+              className={cn(
+                "text-sm font-medium transition-colors hover:text-primary",
+                isActiveRoute("/dlc") ? "text-primary" : "text-secondary-600",
+              )}
+            >
+              DLC
+            </Link>
+            <Link
+              to="/gift-cards"
+              className={cn(
+                "text-sm font-medium transition-colors hover:text-primary",
+                isActiveRoute("/gift-cards")
+                  ? "text-primary"
+                  : "text-secondary-600",
+              )}
+            >
+              Gift Cards
             </Link>
           </nav>
 
@@ -90,7 +121,18 @@ export function Header() {
 
         {/* Mobile Navigation */}
         <div className="md:hidden pb-4">
-          <div className="flex space-x-4 mb-4">
+          <div className="flex flex-wrap gap-4 mb-4">
+            <Link
+              to="/juegos-pc"
+              className={cn(
+                "text-sm font-medium transition-colors hover:text-primary",
+                isActiveRoute("/juegos-pc")
+                  ? "text-primary"
+                  : "text-secondary-600",
+              )}
+            >
+              Juegos PC
+            </Link>
             <Link
               to="/divisas"
               className={cn(
@@ -100,7 +142,27 @@ export function Header() {
                   : "text-secondary-600",
               )}
             >
-              Divisas y Gift Cards
+              Divisas
+            </Link>
+            <Link
+              to="/dlc"
+              className={cn(
+                "text-sm font-medium transition-colors hover:text-primary",
+                isActiveRoute("/dlc") ? "text-primary" : "text-secondary-600",
+              )}
+            >
+              DLC
+            </Link>
+            <Link
+              to="/gift-cards"
+              className={cn(
+                "text-sm font-medium transition-colors hover:text-primary",
+                isActiveRoute("/gift-cards")
+                  ? "text-primary"
+                  : "text-secondary-600",
+              )}
+            >
+              Gift Cards
             </Link>
           </div>
           <form onSubmit={handleSearch} className="relative">
