@@ -3,7 +3,7 @@ import { Index } from "./pages/Index";
 import { Divisas } from "./pages/Divisas";
 import { GiftCards } from "./pages/GiftCards";
 import { ProductDetail } from "./pages/ProductDetail";
-import { NotFound } from "./pages/NotFound";
+import NotFound from "./pages/NotFound";
 import "./App.css";
 
 function App() {
