@@ -3,6 +3,7 @@ import { Grid, List, SlidersHorizontal } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { ProductGrid } from "@/components/ProductGrid";
+import { ProductCard } from "@/components/ProductCard";
 import { ProductFilters } from "@/components/filters/ProductFilters";
 import { Button } from "@/components/ui/button";
 import {
@@ -186,9 +187,81 @@ export function Divisas() {
               </div>
             </div>
 
-            {/* Products */}
+            {/* Products - Functional Grid/List View */}
             {filteredProducts.length > 0 ? (
-              <ProductGrid products={filteredProducts} />
+              viewMode === "grid" ? (
+                <ProductGrid products={filteredProducts} />
+              ) : (
+                <div className="space-y-4">
+                  {filteredProducts.map((product) => (
+                    <div
+                      key={product.id}
+                      className="border rounded-lg p-4 hover:shadow-md transition-shadow"
+                    >
+                      <div className="flex gap-4">
+                        <img
+                          src={product.image}
+                          alt={product.title}
+                          className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
+                        />
+                        <div className="flex-1">
+                          <div className="flex justify-between items-start mb-2">
+                            <h3 className="text-lg font-semibold text-gray-900 hover:text-primary">
+                              {product.title}
+                            </h3>
+                            <div className="text-right">
+                              {product.originalPrice && (
+                                <span className="text-secondary-400 line-through text-sm block">
+                                  ${product.originalPrice}
+                                </span>
+                              )}
+                              <span className="text-xl font-bold text-gray-900">
+                                ${product.price}
+                              </span>
+                            </div>
+                          </div>
+                          <p className="text-secondary-600 text-sm mb-3">
+                            {product.description}
+                          </p>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                              <div className="flex items-center gap-1">
+                                <span className="text-sm text-secondary-600">
+                                  Rating:
+                                </span>
+                                <span className="text-sm font-medium">
+                                  {product.rating}
+                                </span>
+                              </div>
+                              <div className="flex flex-wrap gap-1">
+                                {product.platforms
+                                  .slice(0, 2)
+                                  .map((platform) => (
+                                    <span
+                                      key={platform}
+                                      className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"
+                                    >
+                                      {platform}
+                                    </span>
+                                  ))}
+                              </div>
+                            </div>
+                            <Button
+                              size="sm"
+                              className="bg-primary hover:bg-primary-600 text-white"
+                              onClick={() => {
+                                // Add to cart functionality would go here
+                              }}
+                            >
+                              Agregar al Carrito
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )
             ) : (
               <div className="text-center py-12">
                 <p className="text-secondary-600">

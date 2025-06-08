@@ -150,7 +150,7 @@ export const products: Product[] = [
       "Tarjeta regalo de $10 USD para Google Play Store. Compra aplicaciones, juegos y contenido digital.",
     price: 10.99,
     image:
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=300&fit=crop",
+      "https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2F1e6160198c0f46f288af9391c293db44",
     rating: 4.7,
     reviewCount: 2567,
     category: "gift-cards",
@@ -166,7 +166,7 @@ export const products: Product[] = [
       "Tarjeta regalo de $25 USD para PlayStation Store. Compra juegos, DLC y más.",
     price: 24.99,
     image:
-      "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&h=300&fit=crop",
+      "https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2F1e6160198c0f46f288af9391c293db44",
     rating: 4.8,
     reviewCount: 3210,
     category: "gift-cards",
@@ -182,7 +182,7 @@ export const products: Product[] = [
       "Tarjeta regalo de $20 para Steam. Añade fondos a tu cartera de Steam.",
     price: 19.99,
     image:
-      "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=400&h=300&fit=crop",
+      "https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2F453d102095a1417e9bfa02c7cf9a1351",
     rating: 4.9,
     reviewCount: 5432,
     category: "gift-cards",
@@ -200,7 +200,7 @@ export const products: Product[] = [
     originalPrice: 49.99,
     discount: 10,
     image:
-      "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=300&fit=crop",
+      "https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2F02a3bc98ef7e47638b6734825e9e068d",
     rating: 4.9,
     reviewCount: 8934,
     category: "gift-cards",
@@ -216,7 +216,7 @@ export const products: Product[] = [
       "Tarjeta regalo para Nintendo eShop. Compra juegos para Nintendo Switch.",
     price: 34.99,
     image:
-      "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
+      "https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2Fea6991a1b4b24b32b4cb770758e739a6",
     rating: 4.6,
     reviewCount: 2134,
     category: "gift-cards",

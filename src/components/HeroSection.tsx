@@ -120,55 +120,85 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right Content - Product Cards */}
+          {/* Right Content - Product Cards with Real Images */}
           <div className="grid grid-cols-2 gap-4">
             {/* Cyberpunk Card */}
             <Link to="/product/3" className="block">
-              <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl p-6 text-black relative overflow-hidden hover:scale-105 transition-transform cursor-pointer">
-                <div className="relative z-10">
-                  <Badge className="bg-black/20 text-black mb-2">-50%</Badge>
-                  <h3 className="font-bold text-lg mb-1">Cyberpunk 2077</h3>
-                  <p className="text-sm opacity-75">$29.99</p>
+              <div className="relative rounded-xl overflow-hidden hover:scale-105 transition-transform cursor-pointer group">
+                <img
+                  src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=400&h=300&fit=crop"
+                  alt="Cyberpunk 2077"
+                  className="w-full h-32 object-cover"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-4">
+                  <Badge className="bg-yellow-500 text-black mb-2 w-fit">
+                    -50%
+                  </Badge>
+                  <h3 className="font-bold text-lg text-white mb-1">
+                    Cyberpunk 2077
+                  </h3>
+                  <p className="text-sm text-white opacity-90">$29.99</p>
                 </div>
-                <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-black/10 rounded-full"></div>
               </div>
             </Link>
 
             {/* Roblox Card */}
             <Link to="/product/4" className="block">
-              <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 text-white relative overflow-hidden hover:scale-105 transition-transform cursor-pointer">
-                <div className="relative z-10">
-                  <Badge className="bg-primary text-white mb-2">-23%</Badge>
-                  <h3 className="font-bold text-lg mb-1">Roblox - 800 Robux</h3>
-                  <p className="text-sm opacity-75">$9.99</p>
+              <div className="relative rounded-xl overflow-hidden hover:scale-105 transition-transform cursor-pointer group">
+                <img
+                  src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=300&fit=crop"
+                  alt="Roblox - 800 Robux"
+                  className="w-full h-32 object-cover"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-4">
+                  <Badge className="bg-primary text-white mb-2 w-fit">
+                    -23%
+                  </Badge>
+                  <h3 className="font-bold text-lg text-white mb-1">
+                    Roblox - 800 Robux
+                  </h3>
+                  <p className="text-sm text-white opacity-90">$9.99</p>
                 </div>
-                <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-white/10 rounded-full"></div>
               </div>
             </Link>
 
             {/* Fortnite Card */}
             <Link to="/product/2" className="block">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl p-6 text-white relative overflow-hidden hover:scale-105 transition-transform cursor-pointer">
-                <div className="relative z-10">
-                  <Badge className="bg-white/20 text-white mb-2">Divisas</Badge>
-                  <h3 className="font-bold text-lg mb-1">1000 V-Bucks</h3>
-                  <p className="text-sm opacity-75">$8.99</p>
+              <div className="relative rounded-xl overflow-hidden hover:scale-105 transition-transform cursor-pointer group">
+                <img
+                  src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&h=300&fit=crop"
+                  alt="1000 V-Bucks"
+                  className="w-full h-32 object-cover"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-4">
+                  <Badge className="bg-blue-500 text-white mb-2 w-fit">
+                    Divisas
+                  </Badge>
+                  <h3 className="font-bold text-lg text-white mb-1">
+                    1000 V-Bucks
+                  </h3>
+                  <p className="text-sm text-white opacity-90">$8.99</p>
                 </div>
-                <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-white/10 rounded-full"></div>
               </div>
             </Link>
 
             {/* Steam Card */}
             <Link to="/product/10" className="block">
-              <div className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl p-6 text-white relative overflow-hidden hover:scale-105 transition-transform cursor-pointer">
-                <div className="relative z-10">
-                  <Badge className="bg-white/20 text-white mb-2">
+              <div className="relative rounded-xl overflow-hidden hover:scale-105 transition-transform cursor-pointer group">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2F453d102095a1417e9bfa02c7cf9a1351"
+                  alt="Steam $20"
+                  className="w-full h-32 object-cover"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-4">
+                  <Badge className="bg-gray-600 text-white mb-2 w-fit">
                     Gift Card
                   </Badge>
-                  <h3 className="font-bold text-lg mb-1">Steam $20</h3>
-                  <p className="text-sm opacity-75">$19.99</p>
+                  <h3 className="font-bold text-lg text-white mb-1">
+                    Steam $20
+                  </h3>
+                  <p className="text-sm text-white opacity-90">$19.99</p>
                 </div>
-                <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-white/10 rounded-full"></div>
               </div>
             </Link>
           </div>

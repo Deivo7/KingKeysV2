@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
-import { Star, ShoppingCart, Zap } from "lucide-react";
+import {
+  Star,
+  ShoppingCart,
+  Zap,
+  Monitor,
+  Gamepad2,
+  Smartphone,
+} from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Card, CardContent } from "./ui/card";
@@ -26,6 +33,49 @@ export function ProductCard({ product, className }: ProductCardProps) {
     e.stopPropagation();
     addItem(product);
     openCart();
+  };
+
+  const getPlatformIcon = (platform: string) => {
+    const platformLower = platform.toLowerCase();
+    if (
+      platformLower.includes("pc") ||
+      platformLower.includes("steam") ||
+      platformLower.includes("epic") ||
+      platformLower.includes("origin") ||
+      platformLower.includes("gog")
+    ) {
+      return <Monitor className="w-3 h-3 mr-1" />;
+    }
+    if (
+      platformLower.includes("playstation") ||
+      platformLower.includes("xbox") ||
+      platformLower.includes("nintendo")
+    ) {
+      return <Gamepad2 className="w-3 h-3 mr-1" />;
+    }
+    if (platformLower.includes("android") || platformLower.includes("mobile")) {
+      return <Smartphone className="w-3 h-3 mr-1" />;
+    }
+    return null;
+  };
+
+  const getPlatformColor = (platform: string) => {
+    const platformLower = platform.toLowerCase();
+    if (platformLower.includes("steam"))
+      return "bg-blue-100 text-blue-700 border-blue-200";
+    if (platformLower.includes("epic"))
+      return "bg-gray-100 text-gray-700 border-gray-200";
+    if (platformLower.includes("playstation"))
+      return "bg-blue-100 text-blue-700 border-blue-200";
+    if (platformLower.includes("xbox"))
+      return "bg-green-100 text-green-700 border-green-200";
+    if (platformLower.includes("nintendo"))
+      return "bg-red-100 text-red-700 border-red-200";
+    if (platformLower.includes("origin"))
+      return "bg-orange-100 text-orange-700 border-orange-200";
+    if (platformLower.includes("android"))
+      return "bg-green-100 text-green-700 border-green-200";
+    return "bg-gray-100 text-gray-700 border-gray-200";
   };
 
   return (
@@ -92,15 +142,26 @@ export function ProductCard({ product, className }: ProductCardProps) {
             </span>
           </div>
 
-          {/* Platforms */}
+          {/* Enhanced Platforms */}
           <div className="flex flex-wrap gap-1 mb-3">
             {product.platforms.slice(0, 3).map((platform) => (
-              <Badge key={platform} variant="secondary" className="text-xs">
+              <Badge
+                key={platform}
+                variant="outline"
+                className={cn(
+                  "text-xs border flex items-center",
+                  getPlatformColor(platform),
+                )}
+              >
+                {getPlatformIcon(platform)}
                 {platform}
               </Badge>
             ))}
             {product.platforms.length > 3 && (
-              <Badge variant="secondary" className="text-xs">
+              <Badge
+                variant="outline"
+                className="text-xs border border-gray-200"
+              >
                 +{product.platforms.length - 3}
               </Badge>
             )}
