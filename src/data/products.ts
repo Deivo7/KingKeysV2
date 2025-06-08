@@ -114,7 +114,7 @@ export const products: Product[] = [
     description: "Compra Skins, mapas de aventuras, paquetes y mucho más",
     price: 26.95,
     image:
-      "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
+      "https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2F8a256b7e065f404da72999c4b5d46f15",
     rating: 4.8,
     reviewCount: 4567,
     category: "divisas",
@@ -133,7 +133,7 @@ export const products: Product[] = [
     originalPrice: 69.99,
     discount: 57,
     image:
-      "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&h=300&fit=crop",
+      "https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2Ff9213eb9d3704588a18a4571a64f89e4",
     rating: 4.3,
     reviewCount: 1987,
     category: "divisas",
