@@ -141,7 +141,7 @@ export function AcercaDeKingKeys() {
             competitivos.
           </p>
           <Badge className="bg-primary text-white text-lg px-6 py-2">
-            Confianza Gaming desde 2016
+            Confianza Gaming desde 2025
           </Badge>
         </div>
 

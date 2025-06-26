@@ -1,4 +1,6 @@
 import { useState } from "react";
+import React from "react";
+import logo from "../Imagenes/Logo-Inicio.png"; 
 import { Search, ShoppingCart, User, Gamepad2 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Input } from "./ui/input";
@@ -31,12 +33,12 @@ export function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Gamepad2 className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-primary">
-              KingKeys Gaming
-            </span>
+            <img
+                src={logo}
+                alt="Logo"
+                className="h-[75px] w-[218px] object-contain"
+              />
+
           </Link>
 
           {/* Navigation */}

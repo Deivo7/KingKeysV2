@@ -4,6 +4,7 @@ import { Layout } from "../components/Layout";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
+import logo from "../Imagenes/Logo-Inicio.png"; 
 import {
   Card,
   CardContent,
@@ -184,9 +185,11 @@ export default function Login() {
 
           <Card className="shadow-lg">
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl font-bold text-gray-900">
-                Bienvenido a KingKeys
-              </CardTitle>
+               <img
+                  src={logo}
+                  alt="Logo"
+                  className="h-[61px] w-[618px] object-contain"
+                />
               <p className="text-gray-600">
                 Tu tienda de divisas gaming de confianza
               </p>
