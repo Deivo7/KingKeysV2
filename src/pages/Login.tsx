@@ -172,7 +172,7 @@ export default function Login() {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-gray-40 py-10">
         <div className="max-w-md mx-auto px-4">
           <Button
             variant="ghost"
@@ -559,10 +559,7 @@ export default function Login() {
                   </Button>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-
-          <div className="mt-6 text-center text-xs text-gray-500">
+              <div className="mt-6 text-center text-xs text-gray-500">
             Al crear una cuenta, aceptas nuestros{" "}
             <Button
               variant="link"
@@ -580,6 +577,10 @@ export default function Login() {
               Política de Privacidad
             </Button>
           </div>
+            </CardContent>
+          </Card>
+
+          
         </div>
       </div>
     </Layout>

@@ -119,6 +119,7 @@ export function DLC() {
         </Breadcrumb>
 
         {/* Header */}
+           <div className="bg-white shadow-lg p-6 my-8 border border-gray-200 rounded-md">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             DLC y Expansiones
@@ -128,6 +129,8 @@ export function DLC() {
             juegos favoritos
           </p>
         </div>
+           </div>
+       
 
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Filters Sidebar */}
@@ -153,7 +156,7 @@ export function DLC() {
                   Filtros
                 </Button>
 
-                <span className="text-sm text-secondary-600">
+                <span className="text-sm text-secondary-600 font-bold">
                   {filteredProducts.length} DLC encontrados
                 </span>
               </div>

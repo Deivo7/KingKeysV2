@@ -106,14 +106,17 @@ export function GiftCards() {
         </Breadcrumb>
 
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Gift Cards Gaming
-          </h1>
-          <p className="text-secondary-600">
-            Tarjetas regalo para todas las plataformas digitales
-          </p>
-        </div>
+          <div className="bg-white shadow-lg p-6 my-8 border border-gray-200 rounded-md">
+              <div className="mb-8">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                Gift Cards Gaming
+              </h1>
+              <p className="text-secondary-600">
+                Tarjetas regalo para todas las plataformas digitales
+              </p>
+            </div>
+          </div>
+  
 
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Filters Sidebar */}
@@ -139,7 +142,7 @@ export function GiftCards() {
                   Filtros
                 </Button>
 
-                <span className="text-sm text-secondary-600">
+                <span className="text-sm text-secondary-600 font-bold">
                   {filteredProducts.length} productos encontrados
                 </span>
               </div>

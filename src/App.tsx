@@ -38,6 +38,7 @@ function App() {
 
         {/* 👉 Aquí mostramos el triángulo en todas las páginas */}
         <TrianguloAcostado />
+<div className="triangulo-izquierdo"></div>
 
         <Routes>
           {/* Main pages */}

@@ -29,7 +29,8 @@ export function Header() {
 
   return (
     <header className="bg-white border-b shadow-sm">
-      <div className="container mx-auto px-4">
+     <div className="container mx-auto px-5 shadow-lg">
+
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">

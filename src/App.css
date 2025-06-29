@@ -42,26 +42,54 @@
 }
 .triangulo-acostado {
   position: fixed;
-  top: 0;
+  bottom: 0; /* toca la parte inferior */
   left: 0;
   width: 100vw;
-  height: 100%;
+  height: 168vh; /* cubre toda la altura */
+  z-index: -10;
+
   background: linear-gradient(
-    120deg,
-    #0d3939 0%,
-    #1f8a8a 20%,
-    #4dbdbd 40%,
-    #9ff1f1 50%,
-    #1f8a8a 60%,
-    #0f5d5d 80%,
-    #0d3939 100%
+      120deg,
+    #0a3d3d 0%,
+    #186161 15%,
+    #4a9e9e 30%,
+    #a0d8d8 45%,
+    #4a9e9e 55%,
+    #186161 75%,
+    #0a3d3d 100%
   );
   background-size: 400% 400%;
-  clip-path: polygon(0% 0%, 70% 0%, 100% 100%, 0% 100%);
-  filter: drop-shadow(0 0 10px #3dbaba);
-  z-index: -10;
+  animation: metalShine 15s ease-in-out infinite;
+  filter: drop-shadow(0 0 12px #3dbaba);
+
+  /* Triángulo obtusángulo acostado con la punta hacia la izquierda y tocando el fondo */
+  clip-path: polygon(0% 100%, 100% 40%, 100% 100%);
   animation: metalShine 15s ease-in-out infinite;
 }
+.triangulo-izquierdo {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 60vw;
+  height: 60vh;
+  z-index: -10;
+
+  background: linear-gradient(
+    120deg,
+    #555555 0%,
+    #c4c4c4 30%,
+    #faf9f9 60%,
+    #555555 100%
+  );
+  background-size: 300% 300%;
+  animation: metalShineGray 15s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(216, 216, 216, 0.5));
+
+  /* Punta a la derecha, base abajo */
+  clip-path: polygon(0% 100%, 100% 100%, 0% 40%);
+}
+
+
 
 @keyframes metalShine {
   0% {
@@ -74,4 +102,16 @@
     background-position: 0% 50%;
   }
 }
+@keyframes metalShineGray {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 

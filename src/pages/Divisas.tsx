@@ -107,7 +107,8 @@ export function Divisas() {
         </Breadcrumb>
 
         {/* Header */}
-        <div className="mb-8">
+         <div className="bg-white shadow-lg p-6 my-8 border border-gray-200 rounded-md">
+<div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Productos Digitales
           </h1>
@@ -115,6 +116,8 @@ export function Divisas() {
             Descubre miles de juegos, divisas virtuales y contenido digital
           </p>
         </div>
+         </div>
+        
 
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Filters Sidebar */}
@@ -140,8 +143,8 @@ export function Divisas() {
                   Filtros
                 </Button>
 
-                <span className="text-sm text-secondary-600">
-                  {filteredProducts.length} productos encontrados
+                 <span className="text-sm text-secondary-600 font-bold">
+              {filteredProducts.length}  productos encontrados
                 </span>
               </div>
 

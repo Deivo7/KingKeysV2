@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { Zap, Shield, TrendingUp } from "lucide-react";
 import { Button } from "./ui/button";
@@ -12,39 +11,101 @@ import magic3 from "../Imagenes/magic3.png";
 
 const images = [magic1, magic2, magic3];
 
+const WindParticles = ({ active }: { active: boolean }) => {
+  if (!active) return null;
+
+  const count = 30;
+  const particles = Array.from({ length: count });
+
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+      {particles.map((_, i) => (
+        <motion.div
+          key={i}
+          className="w-[4px] h-[4px] bg-teal-400 rounded-full absolute blur-sm opacity-80"
+          initial={{
+            x: Math.random() * 300 - 150,
+            y: Math.random() * 200 + 100,
+            opacity: 0,
+            scale: 0.8,
+          }}
+          animate={{
+            y: [-20, -150],
+            opacity: [0, 0.8, 0],
+            scale: [0.6, 1.2, 0.3],
+            x: `+=${Math.random() * 80 - 40}`,
+          }}
+          transition={{
+            duration: 1.2,
+            ease: "easeInOut",
+            delay: i * 0.03,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 export function HeroSection() {
   const [cycleIndex, setCycleIndex] = useState(0);
+  const [windEffect, setWindEffect] = useState(false);
+  const [nextIndex, setNextIndex] = useState(1);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCycleIndex((prev) => (prev + 1) % images.length);
-    }, 5000);
+      setWindEffect(true);
+      setTimeout(() => {
+        setCycleIndex(nextIndex);
+        setNextIndex((nextIndex + 1) % images.length);
+        setWindEffect(false);
+      }, 800);
+    }, 6000);
+
     return () => clearInterval(interval);
-  }, []);
+  }, [nextIndex]);
 
   const productLinks = ["/product/3", "/product/4", "/product/2"];
 
-  const Card = ({ image, index, productLink }: { image: string; index: number; productLink: string }) => {
+  const Card = ({
+    image,
+    index,
+    productLink,
+  }: {
+    image: string;
+    index: number;
+    productLink: string;
+  }) => {
     const positions = [
-      { rotateZ: -10, x: -80, zIndex: 10 },
-      { rotateZ: 2, x: 2, zIndex: 20 },
-      { rotateZ: 10, x: 80, zIndex: 10 }
+      { rotateZ: -10, x: -80 },
+      { rotateZ: 2, x: 2 },
+      { rotateZ: 10, x: 80 },
     ];
-
-    const { rotateZ, x, zIndex } = positions[index];
+    const { rotateZ, x } = positions[index];
 
     return (
       <Link to={productLink}>
         <motion.div
           layout
-          animate={{ x, rotateZ }}
-          transition={{ type: "spring", stiffness: 170, damping: 43 }}
-          className="relative w-[170px] h-[250px] rounded-xl shadow-xl cursor-pointer"
-          style={{ zIndex }}
+          animate={{
+            x,
+            rotateZ,
+            rotateY: windEffect ? [0, 4, -4, 2, 0] : 0,
+            scale: windEffect ? 1.05 : 1,
+          }}
+          transition={{
+            duration: windEffect ? 0.8 : 0.4,
+            ease: "easeInOut",
+          }}
+          className="relative w-[170px] h-[250px] rounded-xl shadow-xl cursor-pointer z-10"
+          style={{ willChange: "transform" }}
         >
           <div
             className="absolute w-full h-full rounded-xl overflow-hidden"
-            style={{ backgroundImage: `url(${image})`, backgroundSize: "cover", backgroundPosition: "center" }}
+            style={{
+              backgroundImage: `url(${image})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
           />
         </motion.div>
       </Link>
@@ -52,9 +113,10 @@ export function HeroSection() {
   };
 
   return (
-    <section className="bg-gradient-to-br from-gray-50 to-gray-100 py-16 lg:py-24">
-      <div className="container mx-auto px-4">
+<section className="bg-gradient-to-br from-gray-50 to-gray-100 py-15 lg:py-24 my-10">
+      <div className="container mx-auto px-1">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Texto informativo */}
           <div className="space-y-8">
             <div>
               <Badge className="bg-primary text-white mb-4">
@@ -66,8 +128,8 @@ export function HeroSection() {
               </h1>
               <p className="text-lg text-secondary-600 mb-8 max-w-xl">
                 Descubre miles de juegos, divisas virtuales y gift cards para
-                todas las plataformas. Entrega instantánea, precios inmejorables
-                y soporte 24/7.
+                todas las plataformas. Entrega instantánea, precios
+                inmejorables y soporte 24/7.
               </p>
             </div>
 
@@ -77,9 +139,12 @@ export function HeroSection() {
                   <Zap className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Entrega Instantánea</h3>
+                  <h3 className="font-semibold text-gray-900">
+                    Entrega Instantánea
+                  </h3>
                   <p className="text-sm text-secondary-600">
-                    Recibe tus claves de juegos y divisas instantáneamente después de la compra
+                    Recibe tus claves de juegos y divisas instantáneamente
+                    después de la compra
                   </p>
                 </div>
               </div>
@@ -88,9 +153,12 @@ export function HeroSection() {
                   <Shield className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Claves Originales</h3>
+                  <h3 className="font-semibold text-gray-900">
+                    Claves Originales
+                  </h3>
                   <p className="text-sm text-secondary-600">
-                    Todas nuestras claves son 100% originales y provienen de distribuidores oficiales
+                    Todas nuestras claves son 100% originales y provienen de
+                    distribuidores oficiales
                   </p>
                 </div>
               </div>
@@ -99,9 +167,12 @@ export function HeroSection() {
                   <TrendingUp className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Mejor Precio Garantizado</h3>
+                  <h3 className="font-semibold text-gray-900">
+                    Mejor Precio Garantizado
+                  </h3>
                   <p className="text-sm text-secondary-600">
-                    Encontramos un precio mejor y te igualamos la oferta + 5% adicional de descuento
+                    Encontramos un precio mejor y te igualamos la oferta + 5%
+                    adicional de descuento
                   </p>
                 </div>
               </div>
@@ -109,7 +180,10 @@ export function HeroSection() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/divisas">
-                <Button size="lg" className="bg-primary hover:bg-primary-600 text-white">
+                <Button
+                  size="lg"
+                  className="bg-primary hover:bg-primary-600 text-white"
+                >
                   Explorar Juegos →
                 </Button>
               </Link>
@@ -126,22 +200,36 @@ export function HeroSection() {
 
             <div className="grid grid-cols-3 gap-8 pt-8 border-t">
               <div className="text-center sm:text-left">
-                <div className="text-2xl lg:text-3xl font-bold text-primary">500K+</div>
-                <div className="text-sm text-secondary-600">Gamers Satisfechos</div>
+                <div className="text-2xl lg:text-3xl font-bold text-primary">
+                  500K+
+                </div>
+                <div className="text-sm text-secondary-600">
+                  Gamers Satisfechos
+                </div>
               </div>
               <div className="text-center sm:text-left">
-                <div className="text-2xl lg:text-3xl font-bold text-primary">10K+</div>
-                <div className="text-sm text-secondary-600">Juegos Disponibles</div>
+                <div className="text-2xl lg:text-3xl font-bold text-primary">
+                  10K+
+                </div>
+                <div className="text-sm text-secondary-600">
+                  Juegos Disponibles
+                </div>
               </div>
               <div className="text-center sm:text-left">
-                <div className="text-2xl lg:text-3xl font-bold text-primary">24/7</div>
-                <div className="text-sm text-secondary-600">Soporte Gamer</div>
+                <div className="text-2xl lg:text-3xl font-bold text-primary">
+                  24/7
+                </div>
+                <div className="text-sm text-secondary-600">
+                  Soporte Gamer
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="flex justify-center items-center">
-            <div className="relative flex gap-[-80px]">
+          {/* Tarjetas animadas con efecto viento */}
+          <div className="flex justify-center items-center relative">
+            <WindParticles active={windEffect} />
+            <div className="relative flex gap-[-80px] z-10">
               {[0, 1, 2].map((i) => (
                 <Card
                   key={`${cycleIndex}-${i}`}
