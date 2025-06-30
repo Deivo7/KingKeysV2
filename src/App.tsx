@@ -26,7 +26,7 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import "./App.css";
 
-// ✅ Componente Triángulo definido directamente aquí
+
 function TrianguloAcostado() {
   return <div className="triangulo-acostado"></div>;
 }
@@ -36,9 +36,9 @@ function App() {
     <CartProvider>
       <BrowserRouter>
 
-        {/* 👉 Aquí mostramos el triángulo en todas las páginas */}
+        {/*  Aquí mostramos el triángulo en todas las páginas 
         <TrianguloAcostado />
-<div className="triangulo-izquierdo"></div>
+<div className="triangulo-izquierdo"></div>*/}
 
         <Routes>
           {/* Main pages */}

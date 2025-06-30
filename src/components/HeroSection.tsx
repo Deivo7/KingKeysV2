@@ -1,122 +1,14 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import { Zap, Shield, TrendingUp } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 
-import magic1 from "../Imagenes/magic1.png";
-import magic2 from "../Imagenes/magic2.png";
-import magic3 from "../Imagenes/magic3.png";
-
-const images = [magic1, magic2, magic3];
-
-const WindParticles = ({ active }: { active: boolean }) => {
-  if (!active) return null;
-
-  const count = 30;
-  const particles = Array.from({ length: count });
-
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-      {particles.map((_, i) => (
-        <motion.div
-          key={i}
-          className="w-[4px] h-[4px] bg-teal-400 rounded-full absolute blur-sm opacity-80"
-          initial={{
-            x: Math.random() * 300 - 150,
-            y: Math.random() * 200 + 100,
-            opacity: 0,
-            scale: 0.8,
-          }}
-          animate={{
-            y: [-20, -150],
-            opacity: [0, 0.8, 0],
-            scale: [0.6, 1.2, 0.3],
-            x: `+=${Math.random() * 80 - 40}`,
-          }}
-          transition={{
-            duration: 1.2,
-            ease: "easeInOut",
-            delay: i * 0.03,
-          }}
-        />
-      ))}
-    </div>
-  );
-};
-
 export function HeroSection() {
-  const [cycleIndex, setCycleIndex] = useState(0);
-  const [windEffect, setWindEffect] = useState(false);
-  const [nextIndex, setNextIndex] = useState(1);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWindEffect(true);
-      setTimeout(() => {
-        setCycleIndex(nextIndex);
-        setNextIndex((nextIndex + 1) % images.length);
-        setWindEffect(false);
-      }, 800);
-    }, 6000);
-
-    return () => clearInterval(interval);
-  }, [nextIndex]);
-
-  const productLinks = ["/product/3", "/product/4", "/product/2"];
-
-  const Card = ({
-    image,
-    index,
-    productLink,
-  }: {
-    image: string;
-    index: number;
-    productLink: string;
-  }) => {
-    const positions = [
-      { rotateZ: -10, x: -80 },
-      { rotateZ: 2, x: 2 },
-      { rotateZ: 10, x: 80 },
-    ];
-    const { rotateZ, x } = positions[index];
-
-    return (
-      <Link to={productLink}>
-        <motion.div
-          layout
-          animate={{
-            x,
-            rotateZ,
-            rotateY: windEffect ? [0, 4, -4, 2, 0] : 0,
-            scale: windEffect ? 1.05 : 1,
-          }}
-          transition={{
-            duration: windEffect ? 0.8 : 0.4,
-            ease: "easeInOut",
-          }}
-          className="relative w-[170px] h-[250px] rounded-xl shadow-xl cursor-pointer z-10"
-          style={{ willChange: "transform" }}
-        >
-          <div
-            className="absolute w-full h-full rounded-xl overflow-hidden"
-            style={{
-              backgroundImage: `url(${image})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          />
-        </motion.div>
-      </Link>
-    );
-  };
-
   return (
-<section className="bg-gradient-to-br from-gray-50 to-gray-100 py-15 lg:py-24 my-10">
-      <div className="container mx-auto px-1">
+    <section className="bg-gradient-to-br from-gray-50 to-gray-100 py-16 lg:py-24">
+      <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Texto informativo */}
+          {/* Left Content */}
           <div className="space-y-8">
             <div>
               <Badge className="bg-primary text-white mb-4">
@@ -128,11 +20,12 @@ export function HeroSection() {
               </h1>
               <p className="text-lg text-secondary-600 mb-8 max-w-xl">
                 Descubre miles de juegos, divisas virtuales y gift cards para
-                todas las plataformas. Entrega instantánea, precios
-                inmejorables y soporte 24/7.
+                todas las plataformas. Entrega instantánea, precios inmejorables
+                y soporte 24/7.
               </p>
             </div>
 
+            {/* Features */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
@@ -178,6 +71,7 @@ export function HeroSection() {
               </div>
             </div>
 
+            {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/divisas">
                 <Button
@@ -198,6 +92,7 @@ export function HeroSection() {
               </Link>
             </div>
 
+            {/* Stats */}
             <div className="grid grid-cols-3 gap-8 pt-8 border-t">
               <div className="text-center sm:text-left">
                 <div className="text-2xl lg:text-3xl font-bold text-primary">
@@ -219,26 +114,119 @@ export function HeroSection() {
                 <div className="text-2xl lg:text-3xl font-bold text-primary">
                   24/7
                 </div>
-                <div className="text-sm text-secondary-600">
-                  Soporte Gamer
-                </div>
+                <div className="text-sm text-secondary-600">Soporte Gamer</div>
               </div>
             </div>
           </div>
 
-          {/* Tarjetas animadas con efecto viento */}
-          <div className="flex justify-center items-center relative">
-            <WindParticles active={windEffect} />
-            <div className="relative flex gap-[-80px] z-10">
-              {[0, 1, 2].map((i) => (
-                <Card
-                  key={`${cycleIndex}-${i}`}
-                  image={images[(cycleIndex + i) % images.length]}
-                  index={i}
-                  productLink={productLinks[i]}
+          {/* Right Content - Product Cards with Real Images */}
+          <div className="grid grid-cols-2 gap-4">
+            {/* Cyberpunk Card */}
+            <Link to="/product/3" className="block">
+              <div className="relative rounded-xl overflow-hidden hover:scale-105 transition-transform cursor-pointer group">
+                <img
+                  src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=400&h=300&fit=crop"
+                  alt="Cyberpunk 2077"
+                  className="w-full h-32 object-cover"
                 />
-              ))}
-            </div>
+                <div
+                  className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-4"
+                  style={{
+                    backgroundImage:
+                      "url(https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2F034b14ad7b0d4c4e9cafd259c3cd9e2e)",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                  }}
+                >
+                  <Badge className="bg-yellow-500 text-black mb-2 w-fit">
+                    -50%
+                  </Badge>
+                  <h3 className="font-bold text-lg text-white mb-1">
+                    Cyberpunk 2077
+                  </h3>
+                  <p className="text-sm text-white opacity-90">$29.99</p>
+                </div>
+              </div>
+            </Link>
+
+            {/* Roblox Card */}
+            <Link to="/product/4" className="block">
+              <div className="relative rounded-xl overflow-hidden hover:scale-105 transition-transform cursor-pointer group">
+                <img
+                  src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=300&fit=crop"
+                  alt="Roblox - 800 Robux"
+                  className="w-full h-32 object-cover"
+                />
+                <div
+                  className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-4"
+                  style={{
+                    backgroundImage:
+                      "url(https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2Fa57eb1fb1f8a4c84b7943a602b35c1a4)",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                  }}
+                >
+                  <Badge className="bg-primary text-white mb-2 w-fit">
+                    -23%
+                  </Badge>
+                  <h3 className="font-bold text-lg text-white mb-1">
+                    Roblox - 800 Robux
+                  </h3>
+                  <p className="text-sm text-white opacity-90">$9.99</p>
+                </div>
+              </div>
+            </Link>
+
+            {/* Fortnite Card */}
+            <Link to="/product/2" className="block">
+              <div className="relative rounded-xl overflow-hidden hover:scale-105 transition-transform cursor-pointer group">
+                <img
+                  src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&h=300&fit=crop"
+                  alt="1000 V-Bucks"
+                  className="w-full h-32 object-cover"
+                />
+                <div
+                  className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-4"
+                  style={{
+                    backgroundImage:
+                      "url(https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2Fe0a258d93c6f4fe19261221513fbed1b)",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                  }}
+                >
+                  <Badge className="bg-blue-500 text-white mb-2 w-fit">
+                    Divisas
+                  </Badge>
+                  <h3 className="font-bold text-lg text-white mb-1">
+                    1000 V-Bucks
+                  </h3>
+                  <p className="text-sm text-white opacity-90">$8.99</p>
+                </div>
+              </div>
+            </Link>
+
+            {/* Steam Card */}
+            <Link to="/product/10" className="block">
+              <div className="relative rounded-xl overflow-hidden hover:scale-105 transition-transform cursor-pointer group">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2F5819097f501443e7b4712716fcc002a1%2F453d102095a1417e9bfa02c7cf9a1351"
+                  alt="Steam $20"
+                  className="w-full h-32 object-cover"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-4">
+                  <Badge className="bg-gray-600 text-white mb-2 w-fit">
+                    Gift Card
+                  </Badge>
+                  <h3 className="font-bold text-lg text-white mb-1">
+                    Steam $20
+                  </h3>
+                  <p className="text-sm text-white opacity-90">$19.99</p>
+                </div>
+              </div>
+            </Link>
           </div>
         </div>
       </div>
