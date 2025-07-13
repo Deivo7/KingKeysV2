@@ -1,3 +1,4 @@
+
 export interface Product {
   id: string;
   title: string;
@@ -15,7 +16,7 @@ export interface Product {
   isInstant?: boolean;
   game?: string;
 }
-
+/*
 export const products: Product[] = [
   {
     id: "1",
@@ -307,3 +308,4 @@ export const filterProducts = (
 
   return filtered;
 };
+*/

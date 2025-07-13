@@ -4,9 +4,11 @@ import { Layout } from "@/components/Layout";
 import { HeroSection } from "@/components/HeroSection";
 import { ProductGrid } from "@/components/ProductGrid";
 import { Button } from "@/components/ui/button";
-import { featuredProducts } from "@/data/products";
+import { ShopContext } from '@/data/ShopContext';
+import { useContext } from "react";
 
 export function Index() {
+  const { featuredProducts } = useContext(ShopContext);
   return (
     <Layout>
       {/* Hero Section */}

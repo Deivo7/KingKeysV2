@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Grid, List, SlidersHorizontal } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { Layout } from "@/components/Layout";
@@ -20,8 +20,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { getProductsByCategory, filterProducts } from "@/data/products";
+//import { getProductsByCategory, filterProducts } from "@/data/products";
 import { cn } from "@/lib/utils";
+import { ShopContext } from "@/data/ShopContext";
 
 type ViewMode = "grid" | "list";
 type SortOption =
@@ -39,6 +40,8 @@ interface FilterState {
 }
 
 export function GiftCards() {
+  const { getProductsByCategory, filterProducts } = useContext(ShopContext); // <--- Aquí obtienes los productos desde contexto
+
   const [searchParams] = useSearchParams();
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [sortBy, setSortBy] = useState<SortOption>("name-asc");
@@ -64,7 +67,13 @@ export function GiftCards() {
   const allProducts = getProductsByCategory("gift-cards");
 
   // Apply filters using the new filterProducts function
-  let filteredProducts = filterProducts(allProducts, {
+  /*let filteredProducts = filterProducts(allProducts, {
+    search: filters.search,
+    categories: filters.categories,
+    platforms: filters.platforms,
+    priceRange: filters.priceRange,
+  });*/
+  let filteredProducts = filterProducts({
     search: filters.search,
     categories: filters.categories,
     platforms: filters.platforms,

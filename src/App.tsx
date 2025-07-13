@@ -25,20 +25,23 @@ import Login from "./pages/Login";
 
 import NotFound from "./pages/NotFound";
 import "./App.css";
+import { ShopContextProvider } from './data/ShopContext';
 
 function App() {
   return (
     <CartProvider>
+      <ShopContextProvider>
       <BrowserRouter>
         <Routes>
           {/* Main pages */}
-          <Route path="/" element={<Index />} />
-          <Route path="/juegos-pc" element={<JuegosPC />} />
-          <Route path="/divisas" element={<Divisas />} />
-          <Route path="/dlc" element={<DLC />} />
-          <Route path="/gift-cards" element={<GiftCards />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
-
+          
+            <Route path="/" element={<Index />} />
+            <Route path="/juegos-pc" element={<JuegosPC />} />
+            <Route path="/divisas" element={<Divisas />} />
+            <Route path="/dlc" element={<DLC />} />
+            <Route path="/gift-cards" element={<GiftCards />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+          
           {/* Support pages */}
           <Route path="/support/centro-ayuda" element={<CentroAyuda />} />
           <Route path="/support/canjear-claves" element={<CanjearClaves />} />
@@ -75,6 +78,7 @@ function App() {
         </Routes>
         <CartModal />
       </BrowserRouter>
+      </ShopContextProvider>
     </CartProvider>
   );
 }
