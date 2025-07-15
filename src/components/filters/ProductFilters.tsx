@@ -100,7 +100,6 @@ export function ProductFilters({
           <Filter className="w-5 h-5" />
           <h2 className="text-lg font-semibold">Filters</h2>
         </div>
-        <span className="text-sm text-secondary-600">6 products found</span>
       </div>
 
       {/* Applied Filters */}

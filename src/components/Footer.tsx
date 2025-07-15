@@ -11,6 +11,7 @@ import {
 import { Link } from "react-router-dom";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import logo from "../Imagenes/Logo-Inicio.png"; 
 
 export function Footer() {
   return (
@@ -41,12 +42,12 @@ export function Footer() {
           {/* Company Info */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <Gamepad2 className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-primary">
-                KingKeys Gaming
-              </span>
+               <img
+                src={logo}
+                alt="Logo"
+                className="h-[185px] w-[618px] object-contain"
+              />
+              
             </Link>
             <p className="text-secondary-600 mb-6 max-w-md">
               La tienda gaming líder en claves digitales, divisas virtuales y

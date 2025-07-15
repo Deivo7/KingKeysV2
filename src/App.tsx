@@ -26,10 +26,20 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import "./App.css";
 
+
+function TrianguloAcostado() {
+  return <div className="triangulo-acostado"></div>;
+}
+
 function App() {
   return (
     <CartProvider>
       <BrowserRouter>
+
+        {/*  Aquí mostramos el triángulo en todas las páginas 
+        <TrianguloAcostado />
+<div className="triangulo-izquierdo"></div>*/}
+
         <Routes>
           {/* Main pages */}
           <Route path="/" element={<Index />} />
