@@ -45,7 +45,7 @@ export function ProductFilters({
 }: ProductFiltersProps) {
   const [filters, setFilters] = useState<FilterState>({
     search: "",
-    categories: ["divisas-juegos"], // Default selected
+    categories: ["divisas-juegos"], // Por Default se estará seleccionado Dividad-juegos
     platforms: [],
     priceRange: [0, 200],
   });

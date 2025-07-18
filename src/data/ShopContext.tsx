@@ -50,8 +50,8 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
     try {
       const response = await axios.get(backendUrl + '/api/productos');
       console.log("Respuesta del backend:", response.data);
-      if (Array.isArray(response.data)) {
-        setProducts(response.data);
+      if (response.data.success) {
+        setProducts(response.data.products);
       } else {
         toast.error("La respuesta del servidor no contiene productos");
       }
