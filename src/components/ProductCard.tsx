@@ -10,7 +10,7 @@ import {
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Card, CardContent } from "./ui/card";
-import { Product } from "@/data/products";
+import { Product } from "@/data/data";
 import { useCart } from "@/contexts/CartContext";
 import { cn } from "@/lib/utils";
 
@@ -141,7 +141,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
               {product.rating} ({product.reviewCount} reviews)
             </span>
           </div>
-
+          
           {/* Enhanced Platforms */}
           <div className="flex flex-wrap gap-1 mb-3">
             {product.platforms.slice(0, 3).map((platform) => (
@@ -160,8 +160,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
             {product.platforms.length > 3 && (
               <Badge
                 variant="outline"
-                className="text-xs border border-gray-200"
-              >
+                className="text-xs border border-gray-200">
                 +{product.platforms.length - 3}
               </Badge>
             )}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Grid, List, SlidersHorizontal } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { Layout } from "@/components/Layout";
@@ -20,7 +20,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { products, filterProducts } from "@/data/products";
+import { ShopContext } from "@/data/ShopContext";
+//import { products, filterProducts } from "@/data/products"; //prueba de import con SHopCOntext
 import { cn } from "@/lib/utils";
 
 type ViewMode = "grid" | "list";
@@ -39,6 +40,9 @@ interface FilterState {
 }
 
 export function JuegosPC() {
+  const { products, filterProducts } = useContext(ShopContext); // <--- Aquí obtienes los productos desde contexto
+  
+
   const [searchParams] = useSearchParams();
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [sortBy, setSortBy] = useState<SortOption>("name-asc");
@@ -71,7 +75,13 @@ export function JuegosPC() {
   );
 
   // Apply filters using the new filterProducts function
-  let filteredProducts = filterProducts(pcProducts, {
+  /*let filteredProducts = filterProducts(pcProducts, {
+    search: filters.search,
+    categories: filters.categories,
+    platforms: filters.platforms,
+    priceRange: filters.priceRange,
+  });*/
+  let filteredProducts = filterProducts({
     search: filters.search,
     categories: filters.categories,
     platforms: filters.platforms,

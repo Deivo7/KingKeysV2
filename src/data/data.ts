@@ -1,0 +1,29 @@
+//Productos
+export interface Product {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  originalPrice?: number;
+  discount?: number;
+  image: string;
+  rating: number;
+  reviewCount: number;
+  category: "divisas" | "gift-cards";
+  platforms: string[];
+  tags: string[];
+  inStock: boolean;
+  isInstant?: boolean;
+  game?: string;
+}
+//Plataforma
+export interface Platform {
+  id: string;
+  name: string;
+}
+
+//Categorias
+export interface Category{
+    id: string;
+    name: string;
+}

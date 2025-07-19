@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
   ArrowLeft,
@@ -22,11 +22,14 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { getProductById } from "@/data/products";
+//import { getProductById } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import { cn } from "@/lib/utils";
+import { ShopContext } from "@/data/ShopContext";
 
 export function ProductDetail() {
+  const { getProductById } = useContext(ShopContext); // <--- Aquí obtienes los productos desde contexto
+
   const { id } = useParams<{ id: string }>();
   const { addItem, openCart } = useCart();
   const [quantity, setQuantity] = useState(1);
