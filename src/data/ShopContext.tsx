@@ -8,11 +8,16 @@ import React, {
 } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Product } from '../data/products';
+import { Product, Platform, Category } from '../data/data';
+
 
 interface ShopContextType {
   products: Product[];
   setProducts: Dispatch<SetStateAction<Product[]>>;
+  platforms: Platform[];
+  setPlatforms: Dispatch<SetStateAction<Platform[]>>;
+  categories: Category[];
+  setCategories: Dispatch<SetStateAction<Category[]>>
   featuredProducts: Product[];
   getProductById: (id: string) => Product | undefined;
   getProductsByCategory: (category: 'divisas' | 'gift-cards') => Product[];
@@ -27,12 +32,16 @@ interface ShopContextType {
 
 export const ShopContext = createContext<ShopContextType>({
   products: [],
+  platforms:[],
+  categories:[],
+  setCategories:() => {},
   setProducts: () => {},
+  setPlatforms: () => {},
   featuredProducts: [],
   getProductById: () => undefined,
   getProductsByCategory: () => [],
   searchProducts: () => [],
-  filterProducts: () => [],
+  filterProducts: () => []
 });
 
 interface ShopContextProviderProps {
@@ -45,10 +54,12 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [products, setProducts] = useState<Product[]>([]);
+  const [platforms, setPlatforms] = useState<Platform[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const getProductData = async () => {
     try {
-      const response = await axios.get(backendUrl + '/api/productos');
+      const response = await axios.get(backendUrl + '/api/productos/list');
       console.log("Respuesta del backend:", response.data);
       if (response.data.success) {
         setProducts(response.data.products);
@@ -61,13 +72,49 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
     }
   };
 
+  const getPlatformData = async () => {
+   try {
+      const response = await axios.get(backendUrl + '/api/plataformas/list');
+      console.log("Respuesta del backend:", response.data);
+      if (response.data.success) {
+        setPlatforms(response.data.platforms);
+      } else {
+        toast.error("La respuesta del servidor no contiene productos");
+      }
+    } catch (error: any) {
+      console.log('Error al obtener productos:', error);
+      toast.error(error.message);
+    }
+  };
+
+   const getCategoryData = async () => {
+   try {
+      const response = await axios.get(backendUrl + '/api/categorias/list');
+      console.log("Respuesta del backend:", response.data);
+      if (response.data.success) {
+        setCategories(response.data.categories);
+      } else {
+        toast.error("La respuesta del servidor no contiene productos");
+      }
+    } catch (error: any) {
+      console.log('Error al obtener productos:', error);
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
     getProductData();
+    getPlatformData();
+    getCategoryData();
   }, []);
 
   useEffect(() => {
-    console.log("Productos actuales:", products);
-  }, [products]);
+    //console.log("Productos actuales:", products);
+    //console.log("Plataformas actuales:", platforms);
+    console.log("categorias actuales:", categories);
+  },);
+
+  
 
   const featuredProducts = products.slice(0, 5);
 
@@ -100,28 +147,19 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
     search?: string;
   }): Product[] => {
     let filtered = [...products];
-
+    //Buscar productos 
     if (filters.search) {
       filtered = searchProducts(filters.search);
     }
-
+    //filtro por categorias
     if (filters.categories && filters.categories.length > 0) {
-      const categoryMap: { [key: string]: string } = {
-        'juegos-pc': 'divisas',
-        'divisas-juegos': 'divisas',
-        'juegos-consola': 'divisas',
-        'dlc-expansiones': 'divisas',
-        'tarjetas-regalo': 'gift-cards',
-        'juegos-retro': 'divisas',
-      };
-
       filtered = filtered.filter((product) =>
         filters.categories!.some(
-          (filterCat) => categoryMap[filterCat] === product.category
+          (filterCat) => filterCat === product.category
         )
       );
     }
-
+    //Filtro por Plataforma
     if (filters.platforms && filters.platforms.length > 0) {
       filtered = filtered.filter((product) =>
         filters.platforms!.some((platform) =>
@@ -144,7 +182,11 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
 
   const contextValue: ShopContextType = {
     products,
+    platforms,
+    categories,
+    setCategories,
     setProducts,
+    setPlatforms,
     featuredProducts,
     getProductById,
     getProductsByCategory,

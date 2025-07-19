@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Filter, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -7,6 +7,9 @@ import { Checkbox } from "../ui/checkbox";
 import { Slider } from "../ui/slider";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
+import { ShopContext } from "@/data/ShopContext";
+
+
 
 interface FilterState {
   search: string;
@@ -20,6 +23,7 @@ interface ProductFiltersProps {
   className?: string;
 }
 
+/*
 const categories = [
   { id: "juegos-pc", label: "Juegos PC", count: 245 },
   { id: "divisas-juegos", label: "Divisas de Juegos", count: 89 },
@@ -28,7 +32,6 @@ const categories = [
   { id: "tarjetas-regalo", label: "Tarjetas Regalo", count: 34 },
   { id: "juegos-retro", label: "Juegos Retro", count: 67 },
 ];
-
 const platforms = [
   "Steam",
   "Epic Games",
@@ -37,22 +40,22 @@ const platforms = [
   "Mac",
   "PlayStation",
   "Xbox",
-];
+];*/
 
 export function ProductFilters({
   onFiltersChange,
   className,
 }: ProductFiltersProps) {
+
+  const { platforms, categories } = useContext(ShopContext);
   const [filters, setFilters] = useState<FilterState>({
     search: "",
-    categories: ["divisas-juegos"], // Por Default se estará seleccionado Dividad-juegos
+    categories: [], // Por Default se estará seleccionado Dividad-juegos
     platforms: [],
     priceRange: [0, 200],
   });
 
-  const [appliedFilters, setAppliedFilters] = useState<string[]>([
-    "Divisas de Juegos",
-  ]);
+  const [appliedFilters, setAppliedFilters] = useState<string[]>([]);
 
   const updateFilters = (newFilters: Partial<FilterState>) => {
     const updated = { ...filters, ...newFilters };
@@ -153,26 +156,23 @@ export function ProductFilters({
         </CardHeader>
         <CardContent className="space-y-3">
           {categories.map((category) => (
-            <div
-              key={category.id}
-              className="flex items-center justify-between"
-            >
+            <div key={category.id} className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Checkbox
-                  id={category.id}
-                  checked={filters.categories.includes(category.id)}
-                  onCheckedChange={() => toggleCategory(category.id)}
+                  id={category.name}
+                  checked={filters.categories.includes(category.name)}
+                  onCheckedChange={() => toggleCategory(category.name)}
                 />
                 <Label
                   htmlFor={category.id}
                   className="text-sm font-normal cursor-pointer"
                 >
-                  {category.label}
+                  {category.name}
                 </Label>
               </div>
-              <span className="text-xs text-secondary-500">
+               {/* <span className="text-xs text-secondary-500">
                 ({category.count})
-              </span>
+              </span>*/}
             </div>
           ))}
         </CardContent>
@@ -185,20 +185,20 @@ export function ProductFilters({
         </CardHeader>
         <CardContent className="space-y-3">
           {platforms.map((platform) => (
-            <div key={platform} className="flex items-center space-x-2">
-              <Checkbox
-                id={platform}
-                checked={filters.platforms.includes(platform)}
-                onCheckedChange={() => togglePlatform(platform)}
-              />
-              <Label
-                htmlFor={platform}
-                className="text-sm font-normal cursor-pointer"
-              >
-                {platform}
-              </Label>
-            </div>
-          ))}
+          <div key={platform.id} className="flex items-center space-x-2">
+            <Checkbox
+              id={platform.name}
+              checked={filters.platforms.includes(platform.name)}
+              onCheckedChange={() => togglePlatform(platform.name)}
+            />
+            <Label
+              htmlFor={platform.name}
+              className="text-sm font-normal cursor-pointer"
+            >
+              {platform.name}
+            </Label>
+          </div>
+        ))}
         </CardContent>
       </Card>
 
