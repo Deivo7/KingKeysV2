@@ -2,6 +2,7 @@ import { X, Plus, Minus, ShoppingBag, Trash2 } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
+import { useNavigate } from "react-router-dom";
 import {
   Sheet,
   SheetContent,
@@ -34,11 +35,14 @@ export function CartModal() {
   };
 
   const total = getTotalPrice();
-
+const navigate = useNavigate();
   const handleCheckout = () => {
-    closeCart();
-    window.location.href = "/checkout";
-  };
+  closeCart(); 
+  setTimeout(() => {
+    navigate("/checkout"); 
+  }, 100); // espera 100 ms (se puede ajustar si quieres)
+};
+
 
   return (
     <Sheet open={state.isOpen} onOpenChange={closeCart}>

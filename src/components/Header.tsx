@@ -53,7 +53,7 @@ export function Header() {
                   : "text-secondary-600",
               )}
             >
-              Juegos PC
+              Juegos-PC
             </Link>
             <Link
               to="/divisas"
@@ -86,6 +86,7 @@ export function Header() {
             >
               Gift Cards
             </Link>
+         
           </nav>
 
           {/* Search Bar */}
@@ -116,14 +117,27 @@ export function Header() {
                 </span>
               )}
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-gray-600 hover:text-[#006D5B]"
-              onClick={() => (window.location.href = "/login")}
-            >
-              <User className="w-5 h-5" />
-            </Button>
+              {/* Botón para ir a Login */}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-gray-600 hover:text-[#006D5B]"
+                    onClick={() => (window.location.href = "/Login")}
+                  >
+                    Login
+                  </Button>
+
+                  {/* Botón para ir a Perfil */}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-gray-600 hover:text-[#006D5B] flex items-center gap-1"
+                    onClick={() => navigate("/Perfil")}
+                  >
+                    <User className="w-5 h-5" />
+                    Perfil
+                  </Button>
+           
           </div>
         </div>
 

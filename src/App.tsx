@@ -22,6 +22,7 @@ import UneteEquipo from "./pages/company/UneteEquipo";
 import ProgramaAfiliados from "./pages/company/ProgramaAfiliados";
 import Checkout from "./pages/Checkout";
 import Login from "./pages/Login";
+import Perfil from "./pages/Perfil"; 
 
 import NotFound from "./pages/NotFound";
 import "./App.css";
@@ -51,6 +52,7 @@ function App() {
             <Route path="/dlc" element={<DLC />} />
             <Route path="/gift-cards" element={<GiftCards />} />
             <Route path="/product/:id" element={<ProductDetail />} />
+             <Route path="/Perfil" element={<Perfil />} />
           
           {/* Support pages */}
           <Route path="/support/centro-ayuda" element={<CentroAyuda />} />
