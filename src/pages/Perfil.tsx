@@ -40,6 +40,35 @@ export default function UserProfile() {
     setNewPassword("");
     setConfirmPassword("");
   };
+const [isEditingPhone, setIsEditingPhone] = useState(false);
+const [currentPhone, setCurrentPhone] = useState('');
+const [newPhone, setNewPhone] = useState('');
+const [confirmPhone, setConfirmPhone] = useState('');
+const handlePhoneSave = () => {
+  if (!newPhone || !confirmPhone) {
+    alert("Por favor completa todos los campos.");
+    return;
+  }
+
+  if (newPhone !== confirmPhone) {
+    alert("Los números no coinciden.");
+    return;
+  }
+
+  console.log("Número actualizado:", newPhone);
+
+  setIsEditingPhone(false);
+  setCurrentPhone('');
+  setNewPhone('');
+  setConfirmPhone('');
+};
+
+const handlePhoneCancel = () => {
+  setIsEditingPhone(false);
+  setCurrentPhone('');
+  setNewPhone('');
+  setConfirmPhone('');
+};
 
   return (
      <Layout>
@@ -110,172 +139,174 @@ export default function UserProfile() {
                 </div>
               </div>
             </CardHeader>
-            <CardContent>
-              {!isEditingPassword ? (
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">
-                      Contraseña
-                    </label>
-                    <div className="flex items-center gap-3 mt-2">
-                      <div className="flex-1 h-10 bg-muted rounded-md flex items-center px-3">
-                        <span className="text-muted-foreground">
-                          ••••••••••••
-                        </span>
-                      </div>
-                      <Button
-                        onClick={() => setIsEditingPassword(true)}
-                        variant="outline"
-                        size="sm"
-                        className="flex items-center gap-2"
-                      >
-                        <Edit3 className="w-4 h-4" />
-                        Editar
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">
-                      Contraseña Actual
-                    </label>
-                    <Input
-                      type="password"
-                      value={currentPassword}
-                      onChange={(e) => setCurrentPassword(e.target.value)}
-                      placeholder="Ingresa tu contraseña actual"
-                      className="mt-1"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">
-                      Nueva Contraseña
-                    </label>
-                    <Input
-                      type="password"
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      placeholder="Ingresa tu nueva contraseña"
-                      className="mt-1"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">
-                      Confirmar Nueva Contraseña
-                    </label>
-                    <Input
-                      type="password"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      placeholder="Confirma tu nueva contraseña"
-                      className="mt-1"
-                    />
-                  </div>
-                  <div className="flex gap-3 pt-2">
-                    <Button
-                      onClick={handlePasswordSave}
-                      className="flex items-center gap-2"
-                    >
-                      <Save className="w-4 h-4" />
-                      Guardar
-                    </Button>
-                    <Button
-                      onClick={handlePasswordCancel}
-                      variant="outline"
-                      className="flex items-center gap-2"
-                    >
-                      <X className="w-4 h-4" />
-                      Cancelar
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </CardContent>
-            <CardContent>
-              {!isEditingPassword ? (
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">
-                      Numero
-                    </label>
-                    <div className="flex items-center gap-3 mt-2">
-                      <div className="flex-1 h-10 bg-muted rounded-md flex items-center px-3">
-                        <span className="text-muted-foreground">
-                          6537-7893
-                        </span>
-                      </div>
-                      <Button
-                        onClick={() => setIsEditingPassword(true)}
-                        variant="outline"
-                        size="sm"
-                        className="flex items-center gap-2"
-                      >
-                        <Edit3 className="w-4 h-4" />
-                        Editar
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">
-                      Numero Actual
-                    </label>
-                    <Input
-                      type="password"
-                      value={currentPassword}
-                      onChange={(e) => setCurrentPassword(e.target.value)}
-                      placeholder="Ingresa tu contraseña actual"
-                      className="mt-1"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">
-                      Nuevo Numero
-                    </label>
-                    <Input
-                      type="password"
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      placeholder="Ingresa tu nueva contraseña"
-                      className="mt-1"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">
-                      Confirmar Nueva Cambio
-                    </label>
-                    <Input
-                      type="password"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      placeholder="Confirma tu nueva contraseña"
-                      className="mt-1"
-                    />
-                  </div>
-                  <div className="flex gap-3 pt-2">
-                    <Button
-                      onClick={handlePasswordSave}
-                      className="flex items-center gap-2"
-                    >
-                      <Save className="w-4 h-4" />
-                      Guardar
-                    </Button>
-                    <Button
-                      onClick={handlePasswordCancel}
-                      variant="outline"
-                      className="flex items-center gap-2"
-                    >
-                      <X className="w-4 h-4" />
-                      Cancelar
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </CardContent>
+           <CardContent>
+  {!isEditingPassword ? (
+    <div className="space-y-4">
+      <div>
+        <label className="text-sm font-medium text-muted-foreground">
+          Contraseña
+        </label>
+        <div className="flex items-center gap-3 mt-2">
+          <div className="flex-1 h-10 bg-muted rounded-md flex items-center px-3">
+            <span className="text-muted-foreground">
+              ••••••••••••
+            </span>
+          </div>
+          <Button
+            onClick={() => setIsEditingPassword(true)}
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <Edit3 className="w-4 h-4" />
+            Editar
+          </Button>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div className="space-y-4">
+      <div>
+        <label className="text-sm font-medium text-muted-foreground">
+          Contraseña Actual
+        </label>
+        <Input
+          type="password"
+          value={currentPassword}
+          onChange={(e) => setCurrentPassword(e.target.value)}
+          placeholder="Ingresa tu contraseña actual"
+          className="mt-1"
+        />
+      </div>
+      <div>
+        <label className="text-sm font-medium text-muted-foreground">
+          Nueva Contraseña
+        </label>
+        <Input
+          type="password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          placeholder="Ingresa tu nueva contraseña"
+          className="mt-1"
+        />
+      </div>
+      <div>
+        <label className="text-sm font-medium text-muted-foreground">
+          Confirmar Nueva Contraseña
+        </label>
+        <Input
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="Confirma tu nueva contraseña"
+          className="mt-1"
+        />
+      </div>
+      <div className="flex gap-3 pt-2">
+        <Button
+          onClick={handlePasswordSave}
+          className="flex items-center gap-2"
+        >
+          <Save className="w-4 h-4" />
+          Guardar
+        </Button>
+        <Button
+          onClick={() => setIsEditingPassword(false)}
+          variant="outline"
+          className="flex items-center gap-2"
+        >
+          <X className="w-4 h-4" />
+          Cancelar
+        </Button>
+      </div>
+    </div>
+  )}
+</CardContent>
+
+<CardContent>
+  {!isEditingPhone ? (
+    <div className="space-y-4">
+      <div>
+        <label className="text-sm font-medium text-muted-foreground">
+          Número
+        </label>
+        <div className="flex items-center gap-3 mt-2">
+          <div className="flex-1 h-10 bg-muted rounded-md flex items-center px-3">
+            <span className="text-muted-foreground">
+              6537-7893
+            </span>
+          </div>
+          <Button
+            onClick={() => setIsEditingPhone(true)}
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <Edit3 className="w-4 h-4" />
+            Editar
+          </Button>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div className="space-y-4">
+      <div>
+        <label className="text-sm font-medium text-muted-foreground">
+          Número Actual
+        </label>
+        <Input
+          type="text"
+          value={currentPhone}
+          onChange={(e) => setCurrentPhone(e.target.value)}
+          placeholder="Ingresa tu número actual"
+          className="mt-1"
+        />
+      </div>
+      <div>
+        <label className="text-sm font-medium text-muted-foreground">
+          Nuevo Número
+        </label>
+        <Input
+          type="text"
+          value={newPhone}
+          onChange={(e) => setNewPhone(e.target.value)}
+          placeholder="Ingresa tu nuevo número"
+          className="mt-1"
+        />
+      </div>
+      <div>
+        <label className="text-sm font-medium text-muted-foreground">
+          Confirmar Nuevo Número
+        </label>
+        <Input
+          type="text"
+          value={confirmPhone}
+          onChange={(e) => setConfirmPhone(e.target.value)}
+          placeholder="Confirma tu nuevo número"
+          className="mt-1"
+        />
+      </div>
+      <div className="flex gap-3 pt-2">
+        <Button
+          onClick={handlePhoneSave}
+          className="flex items-center gap-2"
+        >
+          <Save className="w-4 h-4" />
+          Guardar
+        </Button>
+        <Button
+          onClick={() => setIsEditingPhone(false)}
+          variant="outline"
+          className="flex items-center gap-2"
+        >
+          <X className="w-4 h-4" />
+          Cancelar
+        </Button>
+      </div>
+    </div>
+  )}
+</CardContent>
+
             
           </Card>
         </div>
