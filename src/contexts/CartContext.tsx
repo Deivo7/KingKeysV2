@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, ReactNode } from "react";
+import { createContext, useContext, useReducer, ReactNode, useEffect } from "react";
 import { Product } from "@/data/data";
 
 export interface CartItem extends Product {
@@ -120,7 +120,18 @@ interface CartProviderProps {
 }
 
 export function CartProvider({ children }: CartProviderProps) {
-  const [state, dispatch] = useReducer(cartReducer, initialState);
+  const init = (): CartState => {
+    const storedItems = localStorage.getItem("cartItems");
+    return {
+      items: storedItems ? JSON.parse(storedItems) : [],
+      isOpen: false,
+    };
+  };
+  const [state, dispatch] = useReducer(cartReducer, initialState, init);
+
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(state.items));
+  }, [state.items]);
 
   const addItem = (product: Product) => {
     dispatch({ type: "ADD_ITEM", payload: product });

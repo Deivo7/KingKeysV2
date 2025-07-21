@@ -27,6 +27,7 @@ import Perfil from "./pages/Perfil";
 import NotFound from "./pages/NotFound";
 import "./App.css";
 import { ShopContextProvider } from './data/ShopContext';
+import { ToastContainer } from "react-toastify";
 
 
 function TrianguloAcostado() {
@@ -35,6 +36,7 @@ function TrianguloAcostado() {
 
 function App() {
   return (
+    
     <CartProvider>
       <ShopContextProvider>
       <BrowserRouter>
@@ -42,7 +44,7 @@ function App() {
         {/*  Aquí mostramos el triángulo en todas las páginas 
         <TrianguloAcostado />
 <div className="triangulo-izquierdo"></div>*/}
-
+        <ToastContainer/>
         <Routes>
           {/* Main pages */}
           
@@ -52,7 +54,7 @@ function App() {
             <Route path="/dlc" element={<DLC />} />
             <Route path="/gift-cards" element={<GiftCards />} />
             <Route path="/product/:id" element={<ProductDetail />} />
-             <Route path="/Perfil" element={<Perfil />} />
+            <Route path="/Perfil" element={<Perfil />} />
           
           {/* Support pages */}
           <Route path="/support/centro-ayuda" element={<CentroAyuda />} />
