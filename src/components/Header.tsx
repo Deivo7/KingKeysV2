@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import logo from "../Imagenes/Logo-Inicio.png"; 
 import { Search, ShoppingCart, User, Gamepad2 } from "lucide-react";
@@ -14,6 +14,15 @@ export function Header() {
   const { getTotalItems, toggleCart } = useCart();
   const [searchQuery, setSearchQuery] = useState("");
 
+   // lo que usamos para el token
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Aqui se verifica si hay Token en la Página
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
+
   const isActiveRoute = (path: string) => {
     if (path === "/" && location.pathname === "/") return true;
     if (path !== "/" && location.pathname.startsWith(path)) return true;
@@ -25,6 +34,13 @@ export function Header() {
     if (searchQuery.trim()) {
       navigate(`/divisas?search=${encodeURIComponent(searchQuery.trim())}`);
     }
+  };
+
+  //Se creo para Remover el Token
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    window.location.reload();
   };
 
   return (
@@ -53,7 +69,7 @@ export function Header() {
                   : "text-secondary-600",
               )}
             >
-              Juegos PC
+              Juegos-PC
             </Link>
             <Link
               to="/divisas"
@@ -86,6 +102,7 @@ export function Header() {
             >
               Gift Cards
             </Link>
+         
           </nav>
 
           {/* Search Bar */}
@@ -116,14 +133,37 @@ export function Header() {
                 </span>
               )}
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-gray-600 hover:text-[#006D5B]"
-              onClick={() => (window.location.href = "/login")}
-            >
-              <User className="w-5 h-5" />
-            </Button>
+              {/* Botón para ir a Login */}
+                 {!isLoggedIn ? (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-gray-600 hover:text-[#006D5B]"
+                onClick={() => navigate("/Login")}
+              >
+                Login
+              </Button>
+            ) : (
+              <>
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-red-600 hover:text-red-700"
+                    onClick={handleLogout}
+                  >
+                    Cerrar sesión
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-600 hover:text-[#006D5B] flex items-center gap-1"
+                  onClick={() => navigate("/Perfil")}
+                >
+                  <User className="w-5 h-5" />
+                  Perfil
+                </Button>
+              </>
+            )}
           </div>
         </div>
 

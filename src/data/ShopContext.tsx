@@ -19,7 +19,7 @@ interface ShopContextType {
   categories: Category[];
   setCategories: Dispatch<SetStateAction<Category[]>>
   featuredProducts: Product[];
-  getProductById: (id: string) => Product | undefined;
+  getProductById: (id: number) => Product | undefined;
   getProductsByCategory: (category: 'divisas' | 'gift-cards') => Product[];
   searchProducts: (query: string) => Product[];
   filterProducts: (filters: {
@@ -60,7 +60,7 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
   const getProductData = async () => {
     try {
       const response = await axios.get(backendUrl + '/api/productos/list');
-      console.log("Respuesta del backend:", response.data);
+      //console.log("Respuesta del backend:", response.data);
       if (response.data.success) {
         setProducts(response.data.products);
       } else {
@@ -73,9 +73,9 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
   };
 
   const getPlatformData = async () => {
-   try {
+    try {
       const response = await axios.get(backendUrl + '/api/plataformas/list');
-      console.log("Respuesta del backend:", response.data);
+      //console.log("Respuesta del backend:", response.data);
       if (response.data.success) {
         setPlatforms(response.data.platforms);
       } else {
@@ -90,7 +90,7 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
    const getCategoryData = async () => {
    try {
       const response = await axios.get(backendUrl + '/api/categorias/list');
-      console.log("Respuesta del backend:", response.data);
+      //console.log("Respuesta del backend:", response.data);
       if (response.data.success) {
         setCategories(response.data.categories);
       } else {
@@ -111,14 +111,14 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
   useEffect(() => {
     //console.log("Productos actuales:", products);
     //console.log("Plataformas actuales:", platforms);
-    console.log("categorias actuales:", categories);
+    //console.log("categorias actuales:", categories);
   },);
 
   
 
   const featuredProducts = products.slice(0, 5);
 
-  const getProductById = (id: string) =>
+  const getProductById = (id: number) =>
     products.find((product) => product.id === id);
 
   const getProductsByCategory = (category: 'divisas' | 'gift-cards') =>

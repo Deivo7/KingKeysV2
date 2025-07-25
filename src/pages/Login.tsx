@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "../components/Layout";
 import { Button } from "../components/ui/button";
@@ -18,6 +18,8 @@ import {
   TabsTrigger,
 } from "../components/ui/tabs";
 import { Eye, EyeOff, ArrowLeft, Mail, Lock, User, Phone } from "lucide-react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 interface LoginFormData {
   email: string;
@@ -25,10 +27,8 @@ interface LoginFormData {
 }
 
 interface RegisterFormData {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
-  phone: string;
   password: string;
   confirmPassword: string;
 }
@@ -38,6 +38,7 @@ interface FormErrors {
 }
 
 export default function Login() {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -53,10 +54,8 @@ export default function Login() {
 
   // Register form state
   const [registerData, setRegisterData] = useState<RegisterFormData>({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
-    phone: "",
     password: "",
     confirmPassword: "",
   });
@@ -84,10 +83,6 @@ export default function Login() {
   const validateRegisterForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    if (!registerData.firstName) newErrors.firstName = "Nombre es requerido";
-    if (!registerData.lastName) newErrors.lastName = "Apellido es requerido";
-    if (!registerData.phone) newErrors.phone = "Teléfono es requerido";
-
     if (!registerData.email) {
       newErrors.email = "Email es requerido";
     } else if (!/\S+@\S+\.\S+/.test(registerData.email)) {
@@ -110,45 +105,71 @@ export default function Login() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleLoginSubmit = async (e: React.FormEvent) => {
+  ///HANDLE LOGIN SUBMIT!!!!!!!!!!!!!
+    const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateLoginForm()) {
-      return;
-    }
+    if (!validateLoginForm()) return;
 
     setIsLoading(true);
+    try {
+      const response = await axios.post(backendUrl+'/api/auth/login', {
+        email: loginData.email,
+        password: loginData.password,
+      });
+       console.log("Respuesta del login:", response.data); // ✅ Verifica que el backend responde
 
-    // Simulate login API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    setIsLoading(false);
-
-    // Simulate successful login
-    alert("¡Inicio de sesión exitoso! Bienvenido a KingKeys.");
-    navigate("/");
+      if (response.data.success) {
+        localStorage.setItem("token", response.data.token);
+        console.log("Token almacenado:", response.data.token); // ✅ Asegúrate que se guarda
+        toast.success("¡Inicio de sesión exitoso!");
+        navigate("/");
+      } else {
+        toast.error(response.data.error?.message || "Credenciales incorrectas");
+      }
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.response?.data?.error?.message || "Error en el servidor");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleRegisterSubmit = async (e: React.FormEvent) => {
+  
+
+    ////HANDLE REGISTER SUBMITTTTT
+    const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateRegisterForm()) {
-      return;
-    }
+    if (!validateRegisterForm()) return;
 
     setIsLoading(true);
+    try {
+      const response = await axios.post(backendUrl+'/api/auth/register', {
+        name: registerData.name,
+        email: registerData.email,
+        password: registerData.password,
+      });
+      console.log("Respuesta del registro:", response.data); // ✅ Te dice si se registró bien
 
-    // Simulate register API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    setIsLoading(false);
-
-    // Simulate successful registration
-    alert(
-      "¡Registro exitoso! Tu cuenta ha sido creada. Ahora puedes iniciar sesión.",
-    );
-    setActiveTab("login");
+      if (response.data.success) {
+        toast.success("¡Registro exitoso! Ahora puedes iniciar sesión.");
+        setActiveTab("login");
+      } else {
+        toast.error(response.data.error?.message || "Error al registrar");
+      }
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.response?.data?.error?.message || "Error en el servidor");
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("Token actual en localStorage:", token);
+  }, []);
 
   const handleLoginInputChange = (
     field: keyof LoginFormData,
@@ -174,22 +195,13 @@ export default function Login() {
     <Layout>
       <div className="min-h-screen bg-gray-40 py-10">
         <div className="max-w-md mx-auto px-4">
-          <Button
-            variant="ghost"
-            onClick={() => navigate(-1)}
-            className="mb-6 text-[#006D5B] hover:text-[#005248]"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Volver
+          <Button variant="ghost"onClick={() => navigate(-1)} className="mb-6 text-[#006D5B] hover:text-[#005248]">
+            <ArrowLeft className="w-4 h-4 mr-2" /> Volver
           </Button>
 
           <Card className="shadow-lg">
             <CardHeader className="text-center">
-               <img
-                  src={logo}
-                  alt="Logo"
-                  className="h-[61px] w-[618px] object-contain"
-                />
+               <img src={logo} alt="Logo" className="h-[61px] w-[618px] object-contain"/>
               <p className="text-gray-600">
                 Tu tienda de divisas gaming de confianza
               </p>
@@ -208,24 +220,11 @@ export default function Login() {
                       <Label htmlFor="login-email">Email</Label>
                       <div className="relative">
                         <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                        <Input
-                          id="login-email"
-                          type="email"
-                          value={loginData.email}
-                          onChange={(e) =>
-                            handleLoginInputChange("email", e.target.value)
-                          }
-                          className={`pl-10 ${loginErrors.email ? "border-red-500" : ""}`}
-                          placeholder="tu@email.com"
+                        <Input id="login-email" type="email" value={loginData.email} onChange={(e) => handleLoginInputChange("email", e.target.value)}
+                          className={`pl-10 ${loginErrors.email ? "border-red-500" : ""}`} placeholder="tu@email.com"
                         />
-                      </div>
-                      {loginErrors.email && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {loginErrors.email}
-                        </p>
-                      )}
+                      </div> {loginErrors.email && ( <p className="text-red-500 text-sm mt-1">{loginErrors.email} </p>)}
                     </div>
-
                     <div>
                       <Label htmlFor="login-password">Contraseña</Label>
                       <div className="relative">
@@ -301,56 +300,31 @@ export default function Login() {
                 {/* Register Tab */}
                 <TabsContent value="register">
                   <form onSubmit={handleRegisterSubmit} className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
+                    
                       <div>
-                        <Label htmlFor="register-firstName">Nombre</Label>
+                        <Label htmlFor="register-name">Nombre de Usuario</Label>
                         <div className="relative">
                           <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                           <Input
-                            id="register-firstName"
-                            value={registerData.firstName}
+                            id="register-name"
+                            value={registerData.name}
                             onChange={(e) =>
                               handleRegisterInputChange(
-                                "firstName",
+                                "name",
                                 e.target.value,
                               )
                             }
-                            className={`pl-10 ${registerErrors.firstName ? "border-red-500" : ""}`}
+                            className={`pl-10 ${registerErrors.name ? "border-red-500" : ""}`}
                             placeholder="Juan"
                           />
                         </div>
-                        {registerErrors.firstName && (
+                        {registerErrors.name && (
                           <p className="text-red-500 text-sm mt-1">
-                            {registerErrors.firstName}
+                            {registerErrors.name}
                           </p>
                         )}
                       </div>
-
-                      <div>
-                        <Label htmlFor="register-lastName">Apellido</Label>
-                        <div className="relative">
-                          <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                          <Input
-                            id="register-lastName"
-                            value={registerData.lastName}
-                            onChange={(e) =>
-                              handleRegisterInputChange(
-                                "lastName",
-                                e.target.value,
-                              )
-                            }
-                            className={`pl-10 ${registerErrors.lastName ? "border-red-500" : ""}`}
-                            placeholder="Pérez"
-                          />
-                        </div>
-                        {registerErrors.lastName && (
-                          <p className="text-red-500 text-sm mt-1">
-                            {registerErrors.lastName}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-
+                    
                     <div>
                       <Label htmlFor="register-email">Email</Label>
                       <div className="relative">
@@ -372,28 +346,6 @@ export default function Login() {
                         </p>
                       )}
                     </div>
-
-                    <div>
-                      <Label htmlFor="register-phone">Teléfono</Label>
-                      <div className="relative">
-                        <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                        <Input
-                          id="register-phone"
-                          value={registerData.phone}
-                          onChange={(e) =>
-                            handleRegisterInputChange("phone", e.target.value)
-                          }
-                          className={`pl-10 ${registerErrors.phone ? "border-red-500" : ""}`}
-                          placeholder="+507 6000-0000"
-                        />
-                      </div>
-                      {registerErrors.phone && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {registerErrors.phone}
-                        </p>
-                      )}
-                    </div>
-
                     <div>
                       <Label htmlFor="register-password">Contraseña</Label>
                       <div className="relative">

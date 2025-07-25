@@ -135,6 +135,13 @@ export default function Checkout() {
     }, 3000);
   };
 
+  React.useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/Login");
+    }
+  }, [navigate]);
+
   if (cartItems.length === 0 && !orderComplete) {
     return (
       <Layout>

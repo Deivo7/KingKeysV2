@@ -2,6 +2,7 @@ import { X, Plus, Minus, ShoppingBag, Trash2 } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
+import { useNavigate } from "react-router-dom";
 import {
   Sheet,
   SheetContent,
@@ -21,7 +22,10 @@ export function CartModal() {
     getTotalPrice,
   } = useCart();
 
-  const handleQuantityChange = (productId: string, newQuantity: number) => {
+  const token = localStorage.getItem("token");
+  const isLoggedIn = !!token;
+
+  const handleQuantityChange = (productId: number, newQuantity: number) => {
     if (newQuantity <= 0) {
       removeItem(productId);
     } else {
@@ -34,10 +38,12 @@ export function CartModal() {
   };
 
   const total = getTotalPrice();
-
+const navigate = useNavigate();
   const handleCheckout = () => {
-    closeCart();
-    window.location.href = "/checkout";
+    closeCart(); 
+    setTimeout(() => {
+      navigate("/checkout"); 
+    }, 100); // espera 100 ms (se puede ajustar si quieres)
   };
 
   return (
@@ -174,12 +180,26 @@ export function CartModal() {
 
               {/* Checkout Buttons */}
               <div className="space-y-2">
-                <Button
-                  className="w-full bg-[#006D5B] hover:bg-[#005248] text-white font-semibold py-3"
-                  onClick={handleCheckout}
-                >
-                  Proceder al Pago (${total.toFixed(2)})
-                </Button>
+                {isLoggedIn ? (
+                  <Button
+                    className="w-full bg-[#006D5B] hover:bg-[#005248] text-white font-semibold py-3"
+                    onClick={handleCheckout}
+                  >
+                    Proceder al Pago (${total.toFixed(2)})
+                  </Button>
+                ) : (
+                  <Button
+                    className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3"
+                    onClick={() => {
+                      closeCart();
+                      setTimeout(() => {
+                        navigate("/Login");
+                      }, 100);
+                    }}
+                  >
+                    Inicia sesión para continuar
+                  </Button>
+                )}
                 <Button
                   variant="outline"
                   className="w-full"
