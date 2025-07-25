@@ -34,8 +34,8 @@ export function ProductDetail() {
   const { addItem, openCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
-
-  const product = id ? getProductById(id) : null;
+  const numericId = id ? parseInt(id) : null;
+  const product = numericId ? getProductById(numericId) : null;
 
   const handleAddToCart = () => {
     if (product) {

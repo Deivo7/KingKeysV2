@@ -36,9 +36,9 @@ function TrianguloAcostado() {
 
 function App() {
   return (
-    
+    <ShopContextProvider>
     <CartProvider>
-      <ShopContextProvider>
+      
       <BrowserRouter>
 
         {/*  Aquí mostramos el triángulo en todas las páginas 
@@ -92,8 +92,9 @@ function App() {
         </Routes>
         <CartModal />
       </BrowserRouter>
-      </ShopContextProvider>
+      
     </CartProvider>
+    </ShopContextProvider>
   );
 }
 

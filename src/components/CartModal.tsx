@@ -25,7 +25,7 @@ export function CartModal() {
   const token = localStorage.getItem("token");
   const isLoggedIn = !!token;
 
-  const handleQuantityChange = (productId: string, newQuantity: number) => {
+  const handleQuantityChange = (productId: number, newQuantity: number) => {
     if (newQuantity <= 0) {
       removeItem(productId);
     } else {
@@ -45,7 +45,6 @@ const navigate = useNavigate();
       navigate("/checkout"); 
     }, 100); // espera 100 ms (se puede ajustar si quieres)
   };
-
 
   return (
     <Sheet open={state.isOpen} onOpenChange={closeCart}>
