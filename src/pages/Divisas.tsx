@@ -116,8 +116,8 @@ export function Divisas() {
         </Breadcrumb>
 
         {/* Header */}
-         <div className="bg-white shadow-lg p-6 my-8 border border-gray-200 rounded-md">
-<div className="mb-8">
+         <div className="bg-white shadow-lg p-5 my-8 border border-gray-200 rounded-md">
+          <div className="">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Productos Digitales
           </h1>

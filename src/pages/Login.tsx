@@ -20,6 +20,7 @@ import {
 import { Eye, EyeOff, ArrowLeft, Mail, Lock, User, Phone } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useCart } from "@/contexts/CartContext";
 
 interface LoginFormData {
   email: string;
@@ -38,6 +39,7 @@ interface FormErrors {
 }
 
 export default function Login() {
+  const { fetchCart } = useCart(); 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -107,33 +109,34 @@ export default function Login() {
 
   ///HANDLE LOGIN SUBMIT!!!!!!!!!!!!!
     const handleLoginSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+      e.preventDefault();
 
-    if (!validateLoginForm()) return;
+      if (!validateLoginForm()) return;
 
-    setIsLoading(true);
-    try {
-      const response = await axios.post(backendUrl+'/api/auth/login', {
-        email: loginData.email,
-        password: loginData.password,
-      });
-       console.log("Respuesta del login:", response.data); // ✅ Verifica que el backend responde
+      setIsLoading(true);
+      try {
+        const response = await axios.post(backendUrl+'/api/auth/login', {
+          email: loginData.email,
+          password: loginData.password,
+        });
+        console.log("Respuesta del login:", response.data); // ✅ Verifica que el backend responde
 
-      if (response.data.success) {
-        localStorage.setItem("token", response.data.token);
-        console.log("Token almacenado:", response.data.token); // ✅ Asegúrate que se guarda
-        toast.success("¡Inicio de sesión exitoso!");
-        navigate("/");
-      } else {
-        toast.error(response.data.error?.message || "Credenciales incorrectas");
+        if (response.data.success) {
+          localStorage.setItem("token", response.data.token);
+          console.log("Token almacenado:", response.data.token); // ✅ Asegúrate que se guarda
+          toast.success("¡Inicio de sesión exitoso!");
+          await fetchCart();
+          navigate("/");
+        } else {
+          toast.error(response.data.error?.message || "Credenciales incorrectas");
+        }
+      } catch (error: any) {
+        console.error(error);
+        toast.error(error.response?.data?.error?.message || "Error en el servidor");
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error: any) {
-      console.error(error);
-      toast.error(error.response?.data?.error?.message || "Error en el servidor");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    };
 
   
 

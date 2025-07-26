@@ -35,6 +35,7 @@ interface CartContextType {
   closeCart: () => void;
   getTotalItems: () => number;
   getTotalPrice: () => number;
+  fetchCart: () => Promise<void>;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -134,43 +135,46 @@ export function CartProvider({ children }: CartProviderProps) {
   const { products } = useContext(ShopContext);
   //console.log("Productos desde ShopContext:", products);
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) return;
+  const fetchCart = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
 
-        const response = await axios.get(backendUrl+'/api/cart/get', {
-          headers: { token },
-        });
-        //console.log("Datos del carrito desde el backend:", response.data);
+      const response = await axios.get(backendUrl + "/api/cart/get", {
+        headers: { token },
+      });
 
-        if (response.data.success) {
+      if (response.data.success) {
         const cartData = response.data.cartData;
-        // Mapear cartData para armar el array de CartItem con producto + quantity
-        const items = Object.entries(cartData).map(([idStr, quantity]) => {
-          const id = parseInt(idStr);
-          const product = products.find((p) => p.id === id);
-          if (!product) return null; // ignorar si no existe
-          return { ...product, quantity: quantity as number };
-          
-        }).filter(Boolean) as CartItem[];
+
+        const items = Object.entries(cartData)
+          .map(([idStr, quantity]) => {
+            const id = parseInt(idStr);
+            const product = products.find((p) => p.id === id);
+            if (!product) return null;
+            return { ...product, quantity: quantity as number };
+          })
+          .filter(Boolean) as CartItem[];
 
         dispatch({ type: "SET_ITEMS", payload: items });
       }
-      } catch (error) {
-        console.error("Error al obtener carrito desde el backend:", error);
-      }
-    };
-   useEffect
-    
-    fetchCart();
+    } catch (error) {
+      console.error("Error al obtener carrito desde el backend:", error);
+    }
+  };
+
+  // Se llama una vez carguen los productos y haya token
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      fetchCart();
+    }
   }, [products]);
 
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(state.items));
   }, [state.items]);
-  console.log("datitos:", state.items);
+  //console.log("datitos:", state.items);
 
   const addItem = async (product: Product) => {
     dispatch({ type: "ADD_ITEM", payload: product });
@@ -215,7 +219,7 @@ export function CartProvider({ children }: CartProviderProps) {
         },
       }
     );
-    console.log("Respuesta del backend al actualizar:", response.data);
+    //console.log("respuesta del backend al actualizar:", response.data);
 
   } catch (error) {
     console.error("Error actualizando el carrito:", error);
@@ -265,6 +269,7 @@ export function CartProvider({ children }: CartProviderProps) {
     closeCart,
     getTotalItems,
     getTotalPrice,
+    fetchCart,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

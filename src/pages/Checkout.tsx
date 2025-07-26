@@ -19,10 +19,6 @@ interface FormData {
   firstName: string;
   lastName: string;
   phone: string;
-  cardNumber: string;
-  expiryDate: string;
-  cvv: string;
-  cardName: string;
 }
 
 interface FormErrors {
@@ -30,10 +26,12 @@ interface FormErrors {
 }
 
 export default function Checkout() {
+  const [method, setMethod] = useState('stripe');
   const { state, clearCart, getTotalPrice } = useCart();
   const cartItems = state.items;
   const total = getTotalPrice();
   const navigate = useNavigate();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const [formData, setFormData] = useState<FormData>({
@@ -41,12 +39,11 @@ export default function Checkout() {
     firstName: "",
     lastName: "",
     phone: "",
-    cardNumber: "",
-    expiryDate: "",
-    cvv: "",
-    cardName: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
+
+  console.log("aqui estos son los productos almacenados",cartItems);
+  
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -60,24 +57,8 @@ export default function Checkout() {
     if (!formData.firstName) newErrors.firstName = "Nombre es requerido";
     if (!formData.lastName) newErrors.lastName = "Apellido es requerido";
     if (!formData.phone) newErrors.phone = "Teléfono es requerido";
-    if (!formData.cardNumber)
-      newErrors.cardNumber = "Número de tarjeta es requerido";
-    if (!formData.expiryDate)
-      newErrors.expiryDate = "Fecha de vencimiento es requerida";
-    if (!formData.cvv) newErrors.cvv = "CVV es requerido";
-    if (!formData.cardName)
-      newErrors.cardName = "Nombre en la tarjeta es requerido";
 
-    if (
-      formData.cardNumber &&
-      formData.cardNumber.replace(/\s/g, "").length < 16
-    ) {
-      newErrors.cardNumber = "Número de tarjeta debe tener 16 dígitos";
-    }
-
-    if (formData.cvv && formData.cvv.length < 3) {
-      newErrors.cvv = "CVV debe tener al menos 3 dígitos";
-    }
+   
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -114,26 +95,60 @@ export default function Checkout() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!validateForm()) {
-      return;
+  if (!validateForm()) {
+    return;
+  }
+
+  setIsProcessing(true);
+
+  try {
+    // Preparar datos para enviar al backend
+    const userId = Number(localStorage.getItem("userId")); // o como tengas el id del usuario guardado
+    const amount = total;
+    const itemsToSend = cartItems.map(item => ({
+      productId: item.id,
+      name: item.title,
+      quantity: item.quantity,
+      price: item.price,
+    }));
+    const token = localStorage.getItem("token");
+     const orderData = {
+      userId,
+      amount,
+      items: itemsToSend,
+    };
+
+    console.log("Enviando a backend:", orderData);
+    const response = await fetch(backendUrl+'/api/order/stripe', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        token, // si usas auth
+      },
+      body: JSON.stringify({
+        userId,
+        amount,
+        items: itemsToSend,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.success && data.session_url) {
+      // Redirigir a Stripe Checkout
+      window.location.href = data.session_url;
+    } else {
+      alert("Error al crear la sesión de pago. Intenta de nuevo.");
+      setIsProcessing(false);
     }
-
-    setIsProcessing(true);
-
-    // Simulate payment processing
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-
+  } catch (error) {
+    console.error("Error en el pago:", error);
+    alert("Error en el proceso de pago. Intenta más tarde.");
     setIsProcessing(false);
-    setOrderComplete(true);
-    clearCart();
-
-    // Redirect after 3 seconds
-    setTimeout(() => {
-      navigate("/");
-    }, 3000);
-  };
+  }
+};
 
   React.useEffect(() => {
     const token = localStorage.getItem("token");
@@ -287,103 +302,17 @@ export default function Checkout() {
                       )}
                     </div>
                   </div>
-
-                  <Separator />
-
-                  {/* Payment Information */}
-                  <div className="space-y-4">
-                    <h3 className="font-semibold text-gray-900">
-                      Información de Pago
-                    </h3>
-
-                    <div>
-                      <Label htmlFor="cardNumber">Número de Tarjeta *</Label>
-                      <Input
-                        id="cardNumber"
-                        value={formData.cardNumber}
-                        onChange={(e) =>
-                          handleInputChange(
-                            "cardNumber",
-                            formatCardNumber(e.target.value),
-                          )
-                        }
-                        className={errors.cardNumber ? "border-red-500" : ""}
-                        placeholder="1234 5678 9012 3456"
-                        maxLength={19}
-                      />
-                      {errors.cardNumber && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.cardNumber}
-                        </p>
-                      )}
+                  <div className='flex flex-col lg:flex-row mt-10'>
+                    <div onClick={() => setMethod('stripe')} className='lg:w-1/2 flex items-center gap-3 border p-8 px-3 cursor-pointer'>
+                      <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'stripe' ? 'bg-green-500' : ''}`}></p>
+                      <img className='h-8 mx-7 ' src={"aqui va la imagen"} alt="" />
                     </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="expiryDate">
-                          Fecha de Vencimiento *
-                        </Label>
-                        <Input
-                          id="expiryDate"
-                          value={formData.expiryDate}
-                          onChange={(e) =>
-                            handleInputChange(
-                              "expiryDate",
-                              formatExpiryDate(e.target.value),
-                            )
-                          }
-                          className={errors.expiryDate ? "border-red-500" : ""}
-                          placeholder="MM/YY"
-                          maxLength={5}
-                        />
-                        {errors.expiryDate && (
-                          <p className="text-red-500 text-sm mt-1">
-                            {errors.expiryDate}
-                          </p>
-                        )}
-                      </div>
-                      <div>
-                        <Label htmlFor="cvv">CVV *</Label>
-                        <Input
-                          id="cvv"
-                          value={formData.cvv}
-                          onChange={(e) =>
-                            handleInputChange(
-                              "cvv",
-                              e.target.value.replace(/\D/g, ""),
-                            )
-                          }
-                          className={errors.cvv ? "border-red-500" : ""}
-                          placeholder="123"
-                          maxLength={4}
-                        />
-                        {errors.cvv && (
-                          <p className="text-red-500 text-sm mt-1">
-                            {errors.cvv}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="cardName">Nombre en la Tarjeta *</Label>
-                      <Input
-                        id="cardName"
-                        value={formData.cardName}
-                        onChange={(e) =>
-                          handleInputChange("cardName", e.target.value)
-                        }
-                        className={errors.cardName ? "border-red-500" : ""}
-                        placeholder="Juan Pérez"
-                      />
-                      {errors.cardName && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.cardName}
-                        </p>
-                      )}
+                    <div onClick={() => setMethod('razorpay')} className='lg:w-1/2 flex items-center gap-3 border p-2 px-3 cursor-pointer'>
+                      <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'razorpay' ? 'bg-green-500' : ''}`}></p>
+                      <img className='h-8 mx-7 ' src={"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/2560px-PayPal.svg.png"} alt="" />
                     </div>
                   </div>
-
+                  <Separator />
                   <div className="flex items-center gap-2 text-sm text-gray-600 bg-green-50 p-3 rounded-lg">
                     <Shield className="w-4 h-4 text-green-600" />
                     Tu información está protegida con encriptación SSL de 256
@@ -415,8 +344,7 @@ export default function Checkout() {
                   {cartItems.map((item) => (
                     <div
                       key={item.id}
-                      className="flex justify-between items-start"
-                    >
+                      className="flex justify-between items-start">
                       <div className="flex gap-3">
                         <img
                           src={item.image}

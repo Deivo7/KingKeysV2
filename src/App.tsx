@@ -23,6 +23,7 @@ import ProgramaAfiliados from "./pages/company/ProgramaAfiliados";
 import Checkout from "./pages/Checkout";
 import Login from "./pages/Login";
 import Perfil from "./pages/Perfil"; 
+import VerifyPage from "./pages/VerifyPage";
 
 import NotFound from "./pages/NotFound";
 import "./App.css";
@@ -86,6 +87,7 @@ function App() {
           <Route path="/team" element={<UneteEquipo />} />
           <Route path="/affiliates" element={<ProgramaAfiliados />} />
           <Route path="/support" element={<CentroAyuda />} />
+          <Route path="/verify" element={<VerifyPage />} />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
