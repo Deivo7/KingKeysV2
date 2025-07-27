@@ -109,34 +109,43 @@ export default function Login() {
 
   ///HANDLE LOGIN SUBMIT!!!!!!!!!!!!!
     const handleLoginSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
+  e.preventDefault();
 
-      if (!validateLoginForm()) return;
+  if (!validateLoginForm()) return;
 
-      setIsLoading(true);
-      try {
-        const response = await axios.post(backendUrl+'/api/auth/login', {
-          email: loginData.email,
-          password: loginData.password,
-        });
-        console.log("Respuesta del login:", response.data); // ✅ Verifica que el backend responde
+  setIsLoading(true);
+  try {
+    const response = await axios.post(backendUrl + '/api/auth/login', {
+      email: loginData.email,
+      password: loginData.password,
+    });
+    console.log("Respuesta del login:", response.data); // ✅ Verifica que el backend responde
 
-        if (response.data.success) {
-          localStorage.setItem("token", response.data.token);
-          console.log("Token almacenado:", response.data.token); // ✅ Asegúrate que se guarda
-          toast.success("¡Inicio de sesión exitoso!");
-          await fetchCart();
-          navigate("/");
-        } else {
-          toast.error(response.data.error?.message || "Credenciales incorrectas");
-        }
-      } catch (error: any) {
-        console.error(error);
+    if (response.data.success) {
+      localStorage.setItem("token", response.data.token);
+      console.log("Token almacenado:", response.data.token);
+      toast.success("¡Inicio de sesión exitoso!");
+      await fetchCart();
+      navigate("/");
+    } else {
+      toast.error(response.data.error?.message || "Credenciales incorrectas");
+    }
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 401) {
+        toast.error("Usuario o contraseña incorrectos");
+      } else {
         toast.error(error.response?.data?.error?.message || "Error en el servidor");
-      } finally {
-        setIsLoading(false);
       }
-    };
+    } else {
+      toast.error("Error inesperado, intenta más tarde");
+    }
+    console.error(error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   
 

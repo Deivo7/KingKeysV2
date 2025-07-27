@@ -96,61 +96,57 @@ export default function Checkout() {
     return v;
   };
 
+  //esto se activa al tocar pagar
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-/*
-  if (!validateForm()) {
-    return;
-  }
-*/
-  setIsProcessing(true);
+    e.preventDefault();
+    setIsProcessing(true);
+    try {
+      // Preparar datos para enviar al backend
+      const userId = Number(localStorage.getItem("userId")); // o como tengas el id del usuario guardado
+      const amount = total;
+      const itemsToSend = cartItems.map(item => ({
+        productId: item.id,
+        name: item.title,
+        image: item.image,
+        quantity: item.quantity,
+        price: item.price,
+      }));
 
-  try {
-    // Preparar datos para enviar al backend
-    const userId = Number(localStorage.getItem("userId")); // o como tengas el id del usuario guardado
-    const amount = total;
-    const itemsToSend = cartItems.map(item => ({
-      productId: item.id,
-      name: item.title,
-      quantity: item.quantity,
-      price: item.price,
-    }));
-    const token = localStorage.getItem("token");
-     const orderData = {
-      userId,
-      amount,
-      items: itemsToSend,
-    };
-
-    console.log("Enviando a backend:", orderData);
-    const response = await fetch(backendUrl+'/api/order/stripe', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        token, // si usas auth
-      },
-      body: JSON.stringify({
-        userId,
+      const orderData = {
         amount,
         items: itemsToSend,
-      }),
-    });
+      };
+      const token = localStorage.getItem("token");
+      console.log("Enviando a backend:", orderData);
+      const response = await fetch(backendUrl+'/api/order/stripe', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          token, // si usas auth
+        },
+        body: JSON.stringify({
+          userId,
+          amount,
+          items: itemsToSend,
+        }),
+      });
+      console.log("Item to send:", itemsToSend);
+      const data = await response.json();
 
-    const data = await response.json();
-
-    if (data.success && data.session_url) {
-      // Redirigir a Stripe Checkout
-      window.location.href = data.session_url;
-    } else {
-      alert("Error al crear la sesión de pago. Intenta de nuevo.");
+      if (data.success && data.session_url) {
+        // Redirigir a Stripe Checkout
+        window.location.href = data.session_url;
+      } else {
+        alert("Error al crear la sesión de pago. Intenta de nuevo.");
+        setIsProcessing(false);
+      }
+    } catch (error) {
+      console.error("Error en el pago:", error);
+      alert("Error en el proceso de pago. Intenta más tarde.");
       setIsProcessing(false);
     }
-  } catch (error) {
-    console.error("Error en el pago:", error);
-    alert("Error en el proceso de pago. Intenta más tarde.");
-    setIsProcessing(false);
-  }
-};
+  };
+
 
   React.useEffect(() => {
     const token = localStorage.getItem("token");
@@ -308,15 +304,16 @@ export default function Checkout() {
                     </div>
                   </div>
                   */}
-                  <div className='flex flex-col lg:flex-row mt-10'>
+                  <div className='flex flex-col lg:flex-row mt-10 justify-center'>
                     <div onClick={() => setMethod('stripe')} className='lg:w-1/2 flex items-center gap-3 border p-8 px-3 cursor-pointer'>
                       <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'stripe' ? 'bg-green-500' : ''}`}></p>
                       <img className='h-8 mx-7 ' src={"https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/1200px-Stripe_Logo%2C_revised_2016.svg.png"} alt="" />
                     </div>
+                    {/*
                     <div onClick={() => setMethod('razorpay')} className='lg:w-1/2 flex items-center gap-3 border p-2 px-3 cursor-pointer'>
                       <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'razorpay' ? 'bg-green-500' : ''}`}></p>
                       <img className='h-8 mx-7 ' src={"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/2560px-PayPal.svg.png"} alt="" />
-                    </div>
+                    </div>*/}
                   </div>
                   <Separator />
                   <div className="flex items-center gap-2 text-sm text-gray-600 bg-green-50 p-3 rounded-lg">

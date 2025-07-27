@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Card,
@@ -12,65 +12,17 @@ import { Input } from "@/components/ui/input";
 import { Layout } from "../components/Layout";
 import { User, Lock, ShoppingBag, Edit3, Save, X } from "lucide-react";
 import { ShopContext } from "@/data/ShopContext";
+import OrderGrid from "@/components/OrderGrid";
 
 
 export default function UserProfile() {
-  const navigate = useNavigate();
-  const [isEditingPassword, setIsEditingPassword] = useState(false);
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const { profile } = useContext(ShopContext);
-
-  const handlePasswordSave = () => {
-    // Here you would handle password update logic
-    if (newPassword === confirmPassword && newPassword.length >= 6) {
-      // Update password logic would go here
-      setIsEditingPassword(false);
-      setCurrentPassword("");
-      setNewPassword("");
-      setConfirmPassword("");
-      alert("Contraseña actualizada correctamente");
-    } else {
-      alert("Las contraseñas no coinciden o son muy cortas");
+  const { profile, getUserProfile } = useContext(ShopContext);
+  
+  useEffect(() => {
+    if (!profile) {
+      getUserProfile();
     }
-  };
-
-  const handlePasswordCancel = () => {
-    setIsEditingPassword(false);
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
-  };
-const [isEditingPhone, setIsEditingPhone] = useState(false);
-const [currentPhone, setCurrentPhone] = useState('');
-const [newPhone, setNewPhone] = useState('');
-const [confirmPhone, setConfirmPhone] = useState('');
-const handlePhoneSave = () => {
-  if (!newPhone || !confirmPhone) {
-    alert("Por favor completa todos los campos.");
-    return;
-  }
-
-  if (newPhone !== confirmPhone) {
-    alert("Los números no coinciden.");
-    return;
-  }
-
-  console.log("Número actualizado:", newPhone);
-
-  setIsEditingPhone(false);
-  setCurrentPhone('');
-  setNewPhone('');
-  setConfirmPhone('');
-};
-
-const handlePhoneCancel = () => {
-  setIsEditingPhone(false);
-  setCurrentPhone('');
-  setNewPhone('');
-  setConfirmPhone('');
-};
+  }, []);
 
   return (
      <Layout>
@@ -135,29 +87,10 @@ const handlePhoneCancel = () => {
           style={{ animationDelay: "0.2s" }}
         >
           <CardHeader>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                <ShoppingBag className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <CardTitle>Historial de Compras</CardTitle>
-                <CardDescription>
-                  Aquí aparecerán tus compras realizadas
-                </CardDescription>
-              </div>
-            </div>
+            <OrderGrid/>
           </CardHeader>
           <CardContent>
-            <div className="border-2 border-dashed border-muted-foreground/20 rounded-lg p-8 md:p-12 text-center">
-              <ShoppingBag className="w-12 h-12 text-muted-foreground/40 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-muted-foreground mb-2">
-                No hay compras registradas
-              </h3>
-              <p className="text-sm text-muted-foreground/70 max-w-md mx-auto">
-                Cuando realices tu primera compra, aparecerá aquí junto con
-                todos los detalles y el historial de tus transacciones.
-              </p>
-            </div>
+            
           </CardContent>
         </Card>
       </div>

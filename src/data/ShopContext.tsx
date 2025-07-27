@@ -9,6 +9,7 @@ import React, {
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Product, Platform, Category, Profile } from '../data/data';
+import { log } from 'node:console';
 
 
 interface ShopContextType {
@@ -21,6 +22,7 @@ interface ShopContextType {
   categories: Category[];
   setCategories: Dispatch<SetStateAction<Category[]>>
   featuredProducts: Product[];
+  getUserProfile: () => Promise<void>; 
   getProductById: (id: number) => Product | undefined;
   getProductsByCategory: (category: 'divisas' | 'gift-cards') => Product[];
   searchProducts: (query: string) => Product[];
@@ -38,6 +40,7 @@ export const ShopContext = createContext<ShopContextType>({
   products: [],
   platforms:[],
   categories:[],
+  getUserProfile: async () => {}, 
   setCategories:() => {},
   setProducts: () => {},
   setPlatforms: () => {},
@@ -81,6 +84,8 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
       toast.error(error.message);
     }
   };
+
+  
 
   const getProductData = async () => {
     try {
@@ -128,6 +133,7 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
   };
 
   useEffect(() => {
+    getUserProfile();
     getUserProfile();
     getProductData();
     getPlatformData();
@@ -216,6 +222,7 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
     setProducts,
     setPlatforms,
     featuredProducts,
+    getUserProfile,
     getProductById,
     getProductsByCategory,
     searchProducts,

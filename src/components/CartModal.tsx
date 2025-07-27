@@ -3,14 +3,7 @@ import { useCart } from "@/contexts/CartContext";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { useNavigate } from "react-router-dom";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-} from "./ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, } from "./ui/sheet";
 
 export function CartModal() {
   const {
@@ -25,6 +18,7 @@ export function CartModal() {
   const token = localStorage.getItem("token");
   const isLoggedIn = !!token;
 
+
   const handleQuantityChange = (productId: number, newQuantity: number) => {
     if (newQuantity <= 0) {
       removeItem(productId);
@@ -38,11 +32,11 @@ export function CartModal() {
   };
 
   const total = getTotalPrice();
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const handleCheckout = () => {
-    closeCart(); 
+    closeCart();
     setTimeout(() => {
-      navigate("/checkout"); 
+      navigate("/checkout");
     }, 100); // espera 100 ms (se puede ajustar si quieres)
   };
 
