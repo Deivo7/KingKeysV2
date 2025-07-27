@@ -8,10 +8,12 @@ import React, {
 } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Product, Platform, Category } from '../data/data';
+import { Product, Platform, Category, Profile } from '../data/data';
 
 
 interface ShopContextType {
+  profile: Profile | null; // ✅
+  setProfile: Dispatch<SetStateAction<Profile | null>>;
   products: Product[];
   setProducts: Dispatch<SetStateAction<Product[]>>;
   platforms: Platform[];
@@ -31,6 +33,8 @@ interface ShopContextType {
 }
 
 export const ShopContext = createContext<ShopContextType>({
+  profile: null,
+  setProfile:()=>{},
   products: [],
   platforms:[],
   categories:[],
@@ -53,9 +57,30 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
 }) => {
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [platforms, setPlatforms] = useState<Platform[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+
+
+  const getUserProfile = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      const response = await axios.get(backendUrl + '/api/auth/profile',{
+        headers: { token },
+      });
+      console.log("Respuesta del backend:", response.data);
+      if (response.data.success) {
+        setProfile(response.data.profile);
+      } else {
+        toast.error("No Se Obtiene el Perfil");
+      }
+    } catch (error: any) {
+      console.log('Error al obtener el Perfil:', error);
+      toast.error(error.message);
+    }
+  };
 
   const getProductData = async () => {
     try {
@@ -103,6 +128,7 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
   };
 
   useEffect(() => {
+    getUserProfile();
     getProductData();
     getPlatformData();
     getCategoryData();
@@ -181,6 +207,8 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
   };
 
   const contextValue: ShopContextType = {
+    profile,
+    setProfile,
     products,
     platforms,
     categories,
