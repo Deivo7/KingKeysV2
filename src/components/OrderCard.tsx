@@ -56,7 +56,7 @@ export default function OrderCard({ order }) {
                 </div>
                 <div className="flex flex-col items-center justify-center min-w-[140px] text-center">
                     <p className="text-gray-600 text-sm">Cantidad: {item.quantity}</p>
-                    <p className="text-xs font-mono bg-black text-green-400 px-2 py-1 rounded shadow-sm mt-1">
+                    <p className="text-xs font-mono bg-black px-2 py-1 rounded shadow-sm mt-1">
                     {generateFakeKey()}
                     </p>
                 </div>
