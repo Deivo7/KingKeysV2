@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Card,
@@ -11,14 +11,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Layout } from "../components/Layout";
 import { User, Lock, ShoppingBag, Edit3, Save, X } from "lucide-react";
+import { ShopContext } from "@/data/ShopContext";
+
 
 export default function UserProfile() {
-      const navigate = useNavigate();
+  const navigate = useNavigate();
   const [isEditingPassword, setIsEditingPassword] = useState(false);
-  const [userName] = useState("María González");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { profile } = useContext(ShopContext);
 
   const handlePasswordSave = () => {
     // Here you would handle password update logic
@@ -85,7 +87,7 @@ const handlePhoneCancel = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           {/* User Info Card */}
           <Card className="lg:col-span-1 animate-slide-up border-primary/20 shadow-lg hover:shadow-xl transition-all duration-300">
             <CardHeader className="text-center">
@@ -101,7 +103,7 @@ const handlePhoneCancel = () => {
                   Nombre
                 </label>
                 <p className="text-lg font-semibold text-foreground mt-1">
-                  {userName}
+                  {profile?.name}
                 </p>
               </div>
               <div>
@@ -109,208 +111,24 @@ const handlePhoneCancel = () => {
                   Email
                 </label>
                 <p className="text-sm text-foreground mt-1">
-                  maria.gonzalez@email.com
+                  {profile?.email}
                 </p>
               </div>
               <div>
                 <label className="text-sm font-medium text-muted-foreground">
                   Miembro desde
                 </label>
-                <p className="text-sm text-foreground mt-1">Enero 2024</p>
+                <p className="text-sm text-foreground mt-1">
+                  {new Date(profile?.createdat || "").toLocaleDateString("es-ES", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric"
+                  })}
+                </p>
               </div>
             </CardContent>
           </Card>
-
-          {/* Password Edit Card */}
-          <Card
-            className="lg:col-span-2 animate-slide-up border-primary/20 shadow-lg hover:shadow-xl transition-all duration-300"
-            style={{ animationDelay: "0.1s" }}
-          >
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <Lock className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <CardTitle>Seguridad</CardTitle>
-                  <CardDescription>
-                    Gestiona tu contraseña de acceso
-                  </CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-           <CardContent>
-  {!isEditingPassword ? (
-    <div className="space-y-4">
-      <div>
-        <label className="text-sm font-medium text-muted-foreground">
-          Contraseña
-        </label>
-        <div className="flex items-center gap-3 mt-2">
-          <div className="flex-1 h-10 bg-muted rounded-md flex items-center px-3">
-            <span className="text-muted-foreground">
-              ••••••••••••
-            </span>
-          </div>
-          <Button
-            onClick={() => setIsEditingPassword(true)}
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-2"
-          >
-            <Edit3 className="w-4 h-4" />
-            Editar
-          </Button>
         </div>
-      </div>
-    </div>
-  ) : (
-    <div className="space-y-4">
-      <div>
-        <label className="text-sm font-medium text-muted-foreground">
-          Contraseña Actual
-        </label>
-        <Input
-          type="password"
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-          placeholder="Ingresa tu contraseña actual"
-          className="mt-1"
-        />
-      </div>
-      <div>
-        <label className="text-sm font-medium text-muted-foreground">
-          Nueva Contraseña
-        </label>
-        <Input
-          type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          placeholder="Ingresa tu nueva contraseña"
-          className="mt-1"
-        />
-      </div>
-      <div>
-        <label className="text-sm font-medium text-muted-foreground">
-          Confirmar Nueva Contraseña
-        </label>
-        <Input
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="Confirma tu nueva contraseña"
-          className="mt-1"
-        />
-      </div>
-      <div className="flex gap-3 pt-2">
-        <Button
-          onClick={handlePasswordSave}
-          className="flex items-center gap-2"
-        >
-          <Save className="w-4 h-4" />
-          Guardar
-        </Button>
-        <Button
-          onClick={() => setIsEditingPassword(false)}
-          variant="outline"
-          className="flex items-center gap-2"
-        >
-          <X className="w-4 h-4" />
-          Cancelar
-        </Button>
-      </div>
-    </div>
-  )}
-</CardContent>
-
-<CardContent>
-  {!isEditingPhone ? (
-    <div className="space-y-4">
-      <div>
-        <label className="text-sm font-medium text-muted-foreground">
-          Número
-        </label>
-        <div className="flex items-center gap-3 mt-2">
-          <div className="flex-1 h-10 bg-muted rounded-md flex items-center px-3">
-            <span className="text-muted-foreground">
-              6537-7893
-            </span>
-          </div>
-          <Button
-            onClick={() => setIsEditingPhone(true)}
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-2"
-          >
-            <Edit3 className="w-4 h-4" />
-            Editar
-          </Button>
-        </div>
-      </div>
-    </div>
-  ) : (
-    <div className="space-y-4">
-      <div>
-        <label className="text-sm font-medium text-muted-foreground">
-          Número Actual
-        </label>
-        <Input
-          type="text"
-          value={currentPhone}
-          onChange={(e) => setCurrentPhone(e.target.value)}
-          placeholder="Ingresa tu número actual"
-          className="mt-1"
-        />
-      </div>
-      <div>
-        <label className="text-sm font-medium text-muted-foreground">
-          Nuevo Número
-        </label>
-        <Input
-          type="text"
-          value={newPhone}
-          onChange={(e) => setNewPhone(e.target.value)}
-          placeholder="Ingresa tu nuevo número"
-          className="mt-1"
-        />
-      </div>
-      <div>
-        <label className="text-sm font-medium text-muted-foreground">
-          Confirmar Nuevo Número
-        </label>
-        <Input
-          type="text"
-          value={confirmPhone}
-          onChange={(e) => setConfirmPhone(e.target.value)}
-          placeholder="Confirma tu nuevo número"
-          className="mt-1"
-        />
-      </div>
-      <div className="flex gap-3 pt-2">
-        <Button
-          onClick={handlePhoneSave}
-          className="flex items-center gap-2"
-        >
-          <Save className="w-4 h-4" />
-          Guardar
-        </Button>
-        <Button
-          onClick={() => setIsEditingPhone(false)}
-          variant="outline"
-          className="flex items-center gap-2"
-        >
-          <X className="w-4 h-4" />
-          Cancelar
-        </Button>
-      </div>
-    </div>
-  )}
-</CardContent>
-
-            
-          </Card>
-        </div>
-
         {/* Purchase History Card */}
         <Card
           className="animate-slide-up border-primary/20 shadow-lg hover:shadow-xl transition-all duration-300"

@@ -13,14 +13,14 @@ import {
 } from "../components/ui/card";
 import { Separator } from "../components/ui/separator";
 import { CreditCard, Shield, ArrowLeft, Check } from "lucide-react";
-
+/*
 interface FormData {
   email: string;
   firstName: string;
   lastName: string;
   phone: string;
 }
-
+*/
 interface FormErrors {
   [key: string]: string;
 }
@@ -34,17 +34,19 @@ export default function Checkout() {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
+  /*
   const [formData, setFormData] = useState<FormData>({
     email: "",
     firstName: "",
     lastName: "",
     phone: "",
   });
+  */
   const [errors, setErrors] = useState<FormErrors>({});
 
   console.log("aqui estos son los productos almacenados",cartItems);
   
-
+/*
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
@@ -63,14 +65,14 @@ export default function Checkout() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
+*//*
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
     }
   };
-
+*/
   const formatCardNumber = (value: string) => {
     const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
     const matches = v.match(/\d{4,16}/g);
@@ -96,11 +98,11 @@ export default function Checkout() {
 
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
-
+/*
   if (!validateForm()) {
     return;
   }
-
+*/
   setIsProcessing(true);
 
   try {
@@ -223,13 +225,16 @@ export default function Checkout() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
+                
                 <form onSubmit={handleSubmit} className="space-y-4">
+
                   {/* Contact Information */}
+                  {/*
                   <div className="space-y-4">
                     <h3 className="font-semibold text-gray-900">
                       Información de Contacto
                     </h3>
-
+                   
                     <div>
                       <Label htmlFor="email">Email *</Label>
                       <Input
@@ -302,10 +307,11 @@ export default function Checkout() {
                       )}
                     </div>
                   </div>
+                  */}
                   <div className='flex flex-col lg:flex-row mt-10'>
                     <div onClick={() => setMethod('stripe')} className='lg:w-1/2 flex items-center gap-3 border p-8 px-3 cursor-pointer'>
                       <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'stripe' ? 'bg-green-500' : ''}`}></p>
-                      <img className='h-8 mx-7 ' src={"aqui va la imagen"} alt="" />
+                      <img className='h-8 mx-7 ' src={"https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/1200px-Stripe_Logo%2C_revised_2016.svg.png"} alt="" />
                     </div>
                     <div onClick={() => setMethod('razorpay')} className='lg:w-1/2 flex items-center gap-3 border p-2 px-3 cursor-pointer'>
                       <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'razorpay' ? 'bg-green-500' : ''}`}></p>

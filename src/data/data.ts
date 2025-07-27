@@ -27,3 +27,10 @@ export interface Category{
     id: string;
     name: string;
 }
+
+//User
+export interface Profile{
+  name: string;
+  email:string;
+  createdat:string;
+}
