@@ -71,7 +71,61 @@ const handlePhoneCancel = () => {
   setNewPhone('');
   setConfirmPhone('');
 };
+const purchases = [
+  {
+    nombre: "Curso React",
+    precio: 29.99,
+    codigo: "REACT123",
+    imagen: "https://via.placeholder.com/64?text=React"
+  },
+  {
+    nombre: "Curso Node.js",
+    precio: 34.99,
+    codigo: "NODE456",
+    imagen: "https://via.placeholder.com/64?text=Node"
+  },
+  {
+    nombre: "Curso Tailwind",
+    precio: 19.99,
+    codigo: "TAIL789",
+    imagen: "https://via.placeholder.com/64?text=Tailwind"
+  }
+];
 
+const OrderGrid = ({ purchases }) => (
+  <div className="flex flex-col gap-4">
+    {purchases.map((purchase, index) => (
+      <div
+        key={index}
+        className="flex items-center gap-4 border border-muted p-4 rounded-xl shadow-sm bg-background"
+      >
+        {/* Imagen del producto */}
+        <img
+          src={purchase.imagen}
+          alt={purchase.nombre}
+          className="w-16 h-16 rounded-lg object-cover border"
+        />
+
+        {/* Detalles del producto */}
+        <div className="flex flex-col justify-center">
+          <h4 className="text-base font-semibold text-foreground mb-5">
+            {purchase.nombre}
+          </h4>
+          <div className="flex items-center gap-20 text-sm text-muted-foreground">
+            <p>
+              <span className="font-medium">Código:</span>{" "}
+              <span className="font-mono">{purchase.codigo}</span>
+            </p>
+            <p>
+              <span className="font-medium">Precio:</span>{" "}
+              <span className="font-semibold">${purchase.precio}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
   return (
      <Layout>
           
@@ -148,16 +202,23 @@ const handlePhoneCancel = () => {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="border-2 border-dashed border-muted-foreground/20 rounded-lg p-8 md:p-12 text-center">
-              <ShoppingBag className="w-12 h-12 text-muted-foreground/40 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-muted-foreground mb-2">
-                No hay compras registradas
-              </h3>
-              <p className="text-sm text-muted-foreground/70 max-w-md mx-auto">
-                Cuando realices tu primera compra, aparecerá aquí junto con
-                todos los detalles y el historial de tus transacciones.
-              </p>
-            </div>
+             {purchases && purchases.length > 0 ? (
+               <div className="max-h-[320px] overflow-y-auto pr-2">
+                  <OrderGrid purchases={purchases} />
+               </div>
+           
+            ) : (
+              <div className="border-2 border-dashed border-muted-foreground/20 rounded-lg p-8 md:p-12 text-center">
+                <ShoppingBag className="w-12 h-12 text-muted-foreground/40 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-muted-foreground mb-2">
+                  No hay compras registradas
+                </h3>
+                <p className="text-sm text-muted-foreground/70 max-w-md mx-auto">
+                  Cuando realices tu primera compra, aparecerá aquí junto con
+                  todos los detalles y el historial de tus transacciones.
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
