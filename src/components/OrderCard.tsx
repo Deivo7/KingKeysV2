@@ -56,9 +56,16 @@ export default function OrderCard({ order }) {
                 </div>
                 <div className="flex flex-col items-center justify-center min-w-[140px] text-center">
                     <p className="text-gray-600 text-sm">Cantidad: {item.quantity}</p>
-                    <p className="text-xs font-mono bg-black px-2 py-1 rounded shadow-sm mt-1">
-                    {generateFakeKey()}
-                    </p>
+                    <div className="flex flex-col items-center gap-1 mt-1">
+                      {Array.from({ length: item.quantity }).map((_, index) => (
+                        <p
+                          key={index}
+                          className="text-xs font-mono bg-black px-2 py-1 rounded shadow-sm"
+                        >
+                          {generateFakeKey()}
+                        </p>
+                      ))}
+                    </div>
                 </div>
                 <div className="text-right min-w-[80px]">
                     <p className="font-semibold">{item.price_at_purchase}</p>
