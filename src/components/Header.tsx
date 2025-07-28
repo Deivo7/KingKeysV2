@@ -11,8 +11,10 @@ import { cn } from "@/lib/utils";
 export function Header() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { getTotalItems, toggleCart } = useCart();
+  const { getTotalItems, toggleCart, clearCart  } = useCart();
   const [searchQuery, setSearchQuery] = useState("");
+
+  
 
    // lo que usamos para el token
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -38,6 +40,7 @@ export function Header() {
 
   //Se creo para Remover el Token
   const handleLogout = () => {
+    localStorage.removeItem("cartItems");
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     window.location.reload();

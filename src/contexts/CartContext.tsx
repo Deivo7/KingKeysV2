@@ -22,7 +22,7 @@ type CartAction =
   | { type: "TOGGLE_CART" }
   | { type: "OPEN_CART" }
   | { type: "CLOSE_CART" }
-  | { type: "SET_ITEMS"; payload: CartItem[] }; // nueva acción
+  | { type: "SET_ITEMS"; payload: CartItem[] };
 
 interface CartContextType {
   state: CartState;
@@ -134,6 +134,14 @@ export function CartProvider({ children }: CartProviderProps) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const { products } = useContext(ShopContext);
   //console.log("Productos desde ShopContext:", products);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const localCart = JSON.parse(localStorage.getItem("cartItems") || "[]");
+
+    if (!token && localCart.length > 0) {
+      dispatch({ type: "SET_ITEMS", payload: localCart });
+    }
+  }, []);
 
   const fetchCart = async () => {
     try {
@@ -271,8 +279,10 @@ export function CartProvider({ children }: CartProviderProps) {
     getTotalPrice,
     fetchCart,
   };
+  
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  
 }
 
 export function useCart() {
